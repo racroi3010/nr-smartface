@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/new/images">
+        <file>images/bg_main.png</file>
+        <file>images/bg_sub.png</file>
+        <file>images/bg_text_overlay.png</file>
+        <file>images/bt_capture.png</file>
+        <file>images/bt_capture_active.png</file>
+        <file>images/bt_checkin.png</file>
+        <file>images/bt_delete.png</file>
+        <file>images/bt_delete_active.png</file>
+        <file>images/bt_down.png</file>
+        <file>images/bt_down_active.png</file>
+        <file>images/bt_exit.png</file>
+        <file>images/bt_list.png</file>
+        <file>images/bt_menu.png</file>
+        <file>images/bt_menu_active.png</file>
+        <file>images/bt_save.png</file>
+        <file>images/bt_save_active.png</file>
+        <file>images/bt_setting.png</file>
+        <file>images/bt_up.png</file>
+        <file>images/bt_up_active.png</file>
+        <file>images/bt_user.png</file>
+        <file>images/img_check.png</file>
+        <file>images/img_frame.png</file>
+        <file>images/img_overlay.png</file>
+        <file>images/img_overlay_02.png</file>
+        <file>images/bt_new.png</file>
+        <file>images/bt_new_active.png</file>
+    </qresource>
+</RCC>
