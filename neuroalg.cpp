@@ -342,9 +342,9 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     // get face
     HNLAttributes hLAtributes = NULL;
     if(facesDetected){
+        std::cout << facesDetected << std::endl;
         result = NFaceGetObject(hFace, 0, &hLAtributes);
         if(NFailed(result)){
-
             //std::cout << "NFaceGetObject failed" << std::endl;
             result = PrintErrorMsgWithLastError(N_T("NFaceGetObject() failed (result = %d)!"), result);
             return rec;
