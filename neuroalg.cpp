@@ -304,6 +304,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 
     // set data
     HNBuffer hImageData = NULL;
+    NBufferCreate(frame.step * frame.cols * frame.rows, &hImageData);
     NBufferGetPtr(hImageData, (void**)&frame.data);
     result = NBiometricSetSampleBuffer(hFace, hImageData);
     if(NFailed(result)){
