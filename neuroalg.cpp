@@ -333,6 +333,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     HNBuffer hImageData = NULL;
     NBufferCreate(frame.elemSize1() * frame.cols * frame.rows, &hImageData);
     NBufferGetPtr(hImageData, (void**)&frame.data);
+
     result = NBiometricSetSampleBuffer(hFace, hImageData);
     if(NFailed(result)){
         std::cout << "NBiometricSetSampleBuffer failed" << std::endl;
