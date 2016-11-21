@@ -48,9 +48,9 @@ void ProcessingThread::run()
         // Get frame from queue, store in currentFrame, set ROI
         QString msg = "";
         this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get().clone();
-        //cv::Rect face = this->faceAlg->faceDetect(currentFrame);
-        //QRect rect(face.x, face.y, face.width, face.height);
-        //emit newFace(rect);
+        cv::Rect face = this->faceAlg->faceDetect(currentFrame);
+        QRect rect(face.x, face.y, face.width, face.height);
+        emit newFace(rect);
 
         //QString userName = this->faceAlg->imageCmp(currentFrame);
         //qDebug() << msg + "\n";
