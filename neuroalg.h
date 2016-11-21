@@ -26,7 +26,7 @@ public:
 
 private:
     NResult createSubjectFromImage(HNSubject hSubject, const NChar * fileName, HNString subjectId);
-
+    HNImage convertMat2Image(cv::Mat frame);
 };
 
 #endif // NEUROALG_H

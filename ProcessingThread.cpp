@@ -79,19 +79,7 @@ bool ProcessingThread::checkLicense()
 }
 bool ProcessingThread::registerUser(QString userNumber, cv::Mat& frame, QString &msg)
 {
-    bool rs = false;
-    if(this->faceAlg->checkLicense())
-    {
-        rs = this->faceAlg->imageReg(userNumber, frame);
-    }
-    else
-    {
-        rs = false;
-    }
-//    if(rs){
-//       this->neoface->LoadFeatures(featurePath.toStdString().c_str(), 0);
-//    }
-    return rs;
+    return this->faceAlg->imageReg(userNumber, frame);
 }
 bool ProcessingThread::saveImage(cv::Mat& frame, QString userNumber)
 {

@@ -7,13 +7,7 @@ NeuroAlg::NeuroAlg()
 
 bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
     NResult result = N_OK;
-    const NChar * additionalComponents = N_T("Biometrics.FaceSegmentsDetection");
-    NBool additionalObtained = NFalse;
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
-    if(NFailed(result)){
-        std::cout << "NLicenseObtainComponents() failed" << std::endl;
-        return false;
-    }
+
     // create subject
     HNSubject hSubject = NULL;
     result = NSubjectCreate(&hSubject);
@@ -30,23 +24,11 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
         return false;
     }
 
-    // write image
-    cv::cvtColor(frame, frame, CV_BGR2RGB);
-    QString path = QDir::currentPath() + "/temp/" + userName + ".bmp";
-    cv::imwrite(path.toStdString(), frame);
-
-    // read and set the image for the face
-    result = NBiometricSetFileName(hFace, N_T(path.toStdString().c_str()));
-    if(NFailed(result)){
-        std::cout << "NBiometricSetFileName() failed" << std::endl;
-        return false;
-    }
-
-
-    // set capture option to nbcoNone
-    result = NBiometricSetCaptureOptions(hFace, nbcoNone);
-    if(NFailed(result)){
-        std::cout << "NBiometricSetCaptureOptions() failed" << std::endl;
+    // set data
+    result = NFaceSetImage(hFace, convertMat2Image(frame));
+    if (NFailed(result))
+    {
+        std::cout << "NImageCreateFromDataEx failed" << std::endl;
         return false;
     }
 
@@ -71,12 +53,6 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
 
    // set template size to large
     result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, NTrue);
-    if (NFailed(result)) {
-        std::cout << "NObjectSetPropertyP() failed" << std::endl;
-        return false;
-    }
-
-    result = NLicenseIsComponentActivated(additionalComponents, &hasEx);
     if (NFailed(result)) {
         std::cout << "NObjectSetPropertyP() failed" << std::endl;
         return false;
@@ -287,28 +263,6 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
 
-    // license
-    const NChar * components = { N_T("Biometrics.FaceExtraction") };
-    const NChar * additionalComponents = N_T("Biometrics.FaceSegmentsDetection");
-    NBool additionalObtained = NFalse;
-    NBool available = NFalse;
-//    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
-//    if (NFailed(result))
-//    {
-//        printf(N_T("Licenses failed\n"), components);
-//        return rec;
-//    }
-//    if (!available)
-//    {
-//        printf(N_T("Licenses for %s not available\n"), components);
-//        return rec;
-//    }
-//    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NLicenseObtainComponents() failed, result = %d\n"), result);
-//        return rec;
-//    }
 
     // create subject
     HNSubject hSubject = NULL;
@@ -327,15 +281,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 
     // set data
-    cv::cvtColor(frame, frame, CV_BGR2RGB);
-    HNImage hImage = NULL;
-    result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3, (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
-    if (NFailed(result))
-    {
-        std::cout << "NImageCreateFromDataEx failed" << std::endl;
-        return rec;
-    }
-    result = NFaceSetImage(hFace, hImage);
+    result = NFaceSetImage(hFace, convertMat2Image(frame));
     if (NFailed(result))
     {
         std::cout << "NImageCreateFromDataEx failed" << std::endl;
@@ -432,4 +378,15 @@ bool NeuroAlg::checkLicense(){
         return false;
     }
     return true;
+}
+HNImage NeuroAlg::convertMat2Image(cv::Mat frame){
+    cv::cvtColor(frame, frame, CV_BGR2RGB);
+    HNImage hImage = NULL;
+    NResult result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3, (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
+    if (NFailed(result))
+    {
+        std::cout << "NImageCreateFromDataEx failed" << std::endl;
+
+    }
+    return hImage;
 }
