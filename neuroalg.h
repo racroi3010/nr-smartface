@@ -32,12 +32,7 @@ private:
     const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
     const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
 
-    // face detection
-    HNSubject hSubject;
-    HNFace hFace;
-    HNBiometricClient hBiometricClient;
-    NBiometricStatus biometricStatus = nbsNone;
-    HNLAttributes hLAtributes;
+
 
     // matching
     HNBiometricTask hBiometricTaskForId;

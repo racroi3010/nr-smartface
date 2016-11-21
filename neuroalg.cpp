@@ -3,24 +3,7 @@
 NeuroAlg::NeuroAlg()
 {
 
-    // create subject
-    NResult result = NSubjectCreate(&hSubject);
-    if(NFailed(result)){
-        std::cout << "NSubjectCreate failed" << std::endl;
-        //return rec;
-    }
 
-    // create face for the subject
-    result = NFaceCreate(&hFace);
-    if(NFailed(result)){
-        std::cout << "NFaceCreate failed" << std::endl;
-    }
-    // create biometric client
-
-    result = NBiometricClientCreate(&hBiometricClient);
-    if(NFailed(result)){
-        std::cout << "NBiometricClientCreate failed" << std::endl;
-    }
 
 }
 
@@ -286,6 +269,25 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
 cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
+    // face detection
+    HNSubject hSubject = NULL;
+    HNFace hFace = NULL;
+    HNBiometricClient hBiometricClient = NULL;
+    NBiometricStatus biometricStatus = nbsNone;
+    HNLAttributes hLAtributes = NULL;
+    // create subject
+    result = NSubjectCreate(&hSubject);
+    if(NFailed(result)){
+        std::cout << "NSubjectCreate failed" << std::endl;
+        return rec;
+    }
+
+    // create face for the subject
+    result = NFaceCreate(&hFace);
+    if(NFailed(result)){
+        std::cout << "NFaceCreate failed" << std::endl;
+        return rec;
+    }
 
     // set data
     result = NFaceSetImage(hFace, convertMat2Image(frame));
@@ -300,6 +302,14 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     result = NSubjectAddFace(hSubject, hFace, NULL);
     if(NFailed(result)){
         std::cout << "NSubjectAddFace failed" << std::endl;
+        return rec;
+    }
+
+    // create biometric client
+
+    result = NBiometricClientCreate(&hBiometricClient);
+    if(NFailed(result)){
+        std::cout << "NBiometricClientCreate failed" << std::endl;
         return rec;
     }
 
@@ -341,6 +351,33 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         rec = cv::Rect(boundingRect.X, boundingRect.Y, boundingRect.Width, boundingRect.Height);
 
     }
+
+    result = NObjectSet(NULL, (HNObject *)&hSubject);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+    result = NObjectSet(NULL, (HNObject *)&hFace);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+    result = NObjectSet(NULL, (HNObject *)&biometricStatus);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+
     return rec;
 
 }
@@ -411,37 +448,6 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 
 bool NeuroAlg::close(){
     NResult result = N_OK;
-
-    result = NObjectSet(NULL, (HNObject *)&hSubject);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NObjectSet(NULL, (HNObject *)&hFace);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NObjectSet(NULL, (HNObject *)&biometricStatus);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return false;
-    }
 
     result = NLicenseReleaseComponents(additionalComponents2);
     if (NFailed(result))
