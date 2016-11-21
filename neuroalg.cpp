@@ -417,5 +417,10 @@ bool NeuroAlg::checkLicense(){
     const NChar * components = {N_T("Biometrics.FaceExtraction")};
     NBool available = NFalse;
     NResult result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
-    return NFailed(result);
+    if (NFailed(result))
+    {
+        printf(N_T("NLicenseObtainComponents failed\n"), components);
+        return false;
+    }
+    return true;
 }
