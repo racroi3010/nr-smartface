@@ -1,6 +1,8 @@
 #ifndef NEUROALG_H
 #define NEUROALG_H
 
+#include <QDir>
+
 #include <NCore.h>
 #include <NBiometricClient.h>
 #include <NBiometrics.h>
@@ -25,6 +27,23 @@ public:
     bool checkLicense();
 
 private:
+    // license
+    const NChar * components = {N_T("Biometrics.FaceExtraction")};
+    const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
+    const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
+
+    // face detection
+    HNSubject hSubject;
+    HNFace hFace;
+    HNBiometricClient hBiometricClient;
+    NBiometricStatus biometricStatus = nbsNone;
+    HNLAttributes hLAtributes;
+
+    // matching
+    HNBiometricTask hBiometricTaskForId;
+
+
+    NResult CreateSubject(HNSubject hSubject, HNBuffer *hBuffer, HNString subjectId);
     NResult createSubjectFromImage(HNSubject hSubject, const NChar * fileName, HNString subjectId);
     HNImage convertMat2Image(cv::Mat frame);
 };

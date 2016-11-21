@@ -85,7 +85,7 @@ void VideoProcessing::resumeCam()
 {
     cameraThread->resume();
 }
-bool VideoProcessing::checkNeoFaceLicense()
+bool VideoProcessing::checkFaceLicense()
 {
     return processingThread->checkLicense();
 }

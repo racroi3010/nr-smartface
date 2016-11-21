@@ -3,6 +3,25 @@
 NeuroAlg::NeuroAlg()
 {
 
+    // create subject
+    NResult result = NSubjectCreate(&hSubject);
+    if(NFailed(result)){
+        std::cout << "NSubjectCreate failed" << std::endl;
+        //return rec;
+    }
+
+    // create face for the subject
+    result = NFaceCreate(&hFace);
+    if(NFailed(result)){
+        std::cout << "NFaceCreate failed" << std::endl;
+    }
+    // create biometric client
+
+    result = NBiometricClientCreate(&hBiometricClient);
+    if(NFailed(result)){
+        std::cout << "NBiometricClientCreate failed" << std::endl;
+    }
+
 }
 
 bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
@@ -268,23 +287,6 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
 
-
-    // create subject
-    HNSubject hSubject = NULL;
-    result = NSubjectCreate(&hSubject);
-    if(NFailed(result)){
-        std::cout << "NSubjectCreate failed" << std::endl;
-        return rec;
-    }
-
-    // create face for the subject
-    HNFace hFace = NULL;
-    result = NFaceCreate(&hFace);
-    if(NFailed(result)){
-        std::cout << "NFaceCreate failed" << std::endl;
-        return rec;
-    }
-
     // set data
     result = NFaceSetImage(hFace, convertMat2Image(frame));
     if (NFailed(result))
@@ -301,17 +303,8 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         return rec;
     }
 
-
-    // create biometric client
-    HNBiometricClient hBiometricClient = NULL;
-    result = NBiometricClientCreate(&hBiometricClient);
-    if(NFailed(result)){
-        std::cout << "NBiometricClientCreate failed" << std::endl;
-        return rec;
-    }
-
     // create the template
-    NBiometricStatus biometricStatus = nbsNone;
+
     result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricStatus);
     if (NFailed(result))
     {
@@ -328,7 +321,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 
     // get face
-    HNLAttributes hLAtributes = NULL;
+
     if(facesDetected){
         std::cout << facesDetected << std::endl;
         result = NFaceGetObject(hFace, 0, &hLAtributes);
@@ -353,7 +346,63 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 }
 
 bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
+    NResult result = N_OK;
 
+    // create biometric client
+    HNBiometricClient hBiometricClient = NULL;
+    result = NBiometricClientCreate(&hBiometricClient);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+        return false;
+    }
+
+    // create biometric task to enroll
+    result = NBiometricEngineCreateTask(hBiometricClient, nboEnroll, NULL, NULL, &hBiometricTaskForId);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
+        return false;
+    }
+
+
+    // read templates
+    QDir* dir = new QDir(QString(lpPath));
+    dir->setNameFilters(QStringList("*.dat"));
+    dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+
+    QFileInfoList files = dir->entryInfoList();
+    HNSubject hTemplateSubject = NULL;
+    QFileInfo f;
+    HNString hSubjectId = NULL;
+    for(int i = 0; i < files.count(); i ++){
+        f = files[i];
+        // create subject for gallery templates
+        result = NSubjectCreate(&hTemplateSubject);
+        if (NFailed(result))
+        {
+            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
+            return false;
+        }
+        // create gallery subject id
+        result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
+        if (NFailed(result))
+        {
+            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
+            return false;
+        }
+//        // set template for gallery subject
+//        result = CreateSubject(hGallerySubject, argv[i], hSubjectId);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
+//            goto FINALLY;
+//        }
+
+
+    }
+    delete dir;
+    return true;
 }
 
 //bool NeuroAlg::saveImage(cv::Mat& frame, QString userName){
@@ -361,12 +410,65 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 //}
 
 bool NeuroAlg::close(){
+    NResult result = N_OK;
+
+    result = NObjectSet(NULL, (HNObject *)&hSubject);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NObjectSet(NULL, (HNObject *)&hFace);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NObjectSet(NULL, (HNObject *)&biometricStatus);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+        return false;
+    }
+
+    result = NLicenseReleaseComponents(additionalComponents2);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NLicenseReleaseComponents(additionalComponents1);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+        return false;
+    }
+    result = NLicenseReleaseComponents(components);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+        return false;
+    }
+
+
     NCoreOnExitEx(NFalse);
+
+    return true;
 }
 
 bool NeuroAlg::checkLicense(){
-    const NChar * components = {N_T("Biometrics.FaceExtraction")};
-    const NChar * additionalComponents = N_T("Biometrics.FaceSegmentsDetection");
     NBool additionalObtained = NFalse;
     NBool available = NFalse;
     NResult result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
@@ -376,10 +478,17 @@ bool NeuroAlg::checkLicense(){
         return false;
     }
 
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
+    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents1, &additionalObtained);
     if (NFailed(result))
     {
-        printf(N_T("NLicenseObtainComponents failed\n"), components);
+        printf(N_T("NLicenseObtainComponents failed\n"), additionalComponents1);
+        return false;
+    }
+    NBool match = NFalse;
+    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents2, &match);
+    if (NFailed(result))
+    {
+        printf(N_T("NLicenseObtainComponents failed\n"), additionalComponents2);
         return false;
     }
     return true;
@@ -387,11 +496,42 @@ bool NeuroAlg::checkLicense(){
 HNImage NeuroAlg::convertMat2Image(cv::Mat frame){
     cv::cvtColor(frame, frame, CV_BGR2RGB);
     HNImage hImage = NULL;
-    NResult result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3, (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
+    NResult result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3
+                                            , (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
     if (NFailed(result))
     {
         std::cout << "NImageCreateFromDataEx failed" << std::endl;
 
     }
     return hImage;
+}
+NResult NeuroAlg::CreateSubject(HNSubject hSubject, HNBuffer *hBuffer, HNString subjectId){
+//    HNBuffer hBuffer = NULL;
+    NResult result = N_OK;
+
+//    // read template
+//    result = NFileReadAllBytesCN(fileName, &hBuffer);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NFileReadAllBytesCN() failed (result = %d)!"), result);
+//        return result;
+//    }
+
+    // set template for subject
+    result = NSubjectSetTemplateBuffer(hSubject, *hBuffer);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NSubjectSetTemplateBuffer() failed (result = %d)!"), result);
+        return result;
+    }
+
+    // set the id for the subject
+    result = NSubjectSetIdN(hSubject, subjectId);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NSubjectSetIdN() failed (result = %d)!"), result);
+        return result;
+    }
+
+    return result;
 }
