@@ -25,7 +25,7 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
     }
 
     // set data
-    frame = cv::imread("et.bmp", CV_LOAD_IMAGE_COLOR);
+    //frame = cv::imread("et.bmp", CV_LOAD_IMAGE_COLOR);
 
     result = NFaceSetImage(hFace, convertMat2Image(frame));
     if (NFailed(result))
