@@ -269,12 +269,7 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
 cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
-    // face detection
-    HNSubject hSubject = NULL;
-    HNFace hFace = NULL;
-    HNBiometricClient hBiometricClient = NULL;
-    NBiometricStatus biometricStatus = nbsNone;
-    HNLAttributes hLAtributes = NULL;
+
     // create subject
     result = NSubjectCreate(&hSubject);
     if(NFailed(result)){
@@ -352,31 +347,31 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 
     }
 
-    result = NObjectSet(NULL, (HNObject *)&hSubject);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-    }
-    result = NObjectSet(NULL, (HNObject *)&hFace);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-    }
-    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-    }
-    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-    }
-    result = NObjectSet(NULL, (HNObject *)&biometricStatus);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-    }
+//    result = NObjectSet(NULL, (HNObject *)&hSubject);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//    }
+//    result = NObjectSet(NULL, (HNObject *)&hFace);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//    }
+//    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//    }
+//    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//    }
+//    result = NObjectSet(NULL, (HNObject *)&biometricStatus);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//    }
 
     return rec;
 
