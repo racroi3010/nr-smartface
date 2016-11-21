@@ -292,23 +292,23 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     const NChar * additionalComponents = N_T("Biometrics.FaceSegmentsDetection");
     NBool additionalObtained = NFalse;
     NBool available = NFalse;
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
-    if (NFailed(result))
-    {
-        printf(N_T("Licenses failed\n"), components);
-        return rec;
-    }
-    if (!available)
-    {
-        printf(N_T("Licenses for %s not available\n"), components);
-        return rec;
-    }
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NLicenseObtainComponents() failed, result = %d\n"), result);
-        return rec;
-    }
+//    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
+//    if (NFailed(result))
+//    {
+//        printf(N_T("Licenses failed\n"), components);
+//        return rec;
+//    }
+//    if (!available)
+//    {
+//        printf(N_T("Licenses for %s not available\n"), components);
+//        return rec;
+//    }
+//    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NLicenseObtainComponents() failed, result = %d\n"), result);
+//        return rec;
+//    }
 
     // create subject
     HNSubject hSubject = NULL;
@@ -415,8 +415,17 @@ bool NeuroAlg::close(){
 
 bool NeuroAlg::checkLicense(){
     const NChar * components = {N_T("Biometrics.FaceExtraction")};
+    const NChar * additionalComponents = N_T("Biometrics.FaceSegmentsDetection");
+    NBool additionalObtained = NFalse;
     NBool available = NFalse;
     NResult result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
+    if (NFailed(result))
+    {
+        printf(N_T("NLicenseObtainComponents failed\n"), components);
+        return false;
+    }
+
+    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents, &additionalObtained);
     if (NFailed(result))
     {
         printf(N_T("NLicenseObtainComponents failed\n"), components);
