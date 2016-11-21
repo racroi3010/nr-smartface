@@ -310,9 +310,6 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         return rec;
     }
 
-
-
-
     // create subject
     HNSubject hSubject = NULL;
     result = NSubjectCreate(&hSubject);
@@ -330,23 +327,21 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 
     // set data
-    HNBuffer hImageData = NULL;
-    NBufferCreate(frame.elemSize1() * frame.cols * frame.rows, &hImageData);
-    NBufferGetPtr(hImageData, (void**)&frame.data);
-
-    result = NBiometricSetSampleBuffer(hFace, hImageData);
-    if(NFailed(result)){
-        std::cout << "NBiometricSetSampleBuffer failed" << std::endl;
+    cv::cvtColor(frame, frame, CV_BGR2RGB);
+    HNImage hImage = NULL;
+    result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3, (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
+    if (NFailed(result))
+    {
+        std::cout << "NImageCreateFromDataEx failed" << std::endl;
+        return rec;
+    }
+    result = NFaceSetImage(hFace, hImage);
+    if (NFailed(result))
+    {
+        std::cout << "NImageCreateFromDataEx failed" << std::endl;
         return rec;
     }
 
-
-    // set capture option
-    result = NBiometricSetCaptureOptions(hFace, nbcoNone);
-    if(NFailed(result)){
-        std::cout << "NBiometricSetCaptureOptions failed" << std::endl;
-        return rec;
-    }
 
     // set the face for the subject
     result = NSubjectAddFace(hSubject, hFace, NULL);
@@ -359,6 +354,19 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     // create biometric client
     HNBiometricClient hBiometricClient = NULL;
     result = NBiometricClientCreate(&hBiometricClient);
+    if(NFailed(result)){
+        std::cout << "NBiometricClientCreate failed" << std::endl;
+        return rec;
+    }
+
+    // create the template
+    NBiometricStatus biometricStatus = nbsNone;
+    result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricStatus);
+    if (NFailed(result))
+    {
+        std::cout << "NBiometricEngineCreateTemplate failed" << std::endl;
+        return rec;
+    }
 
     // retrieve the number of faces detected
     NInt facesDetected = 0;
