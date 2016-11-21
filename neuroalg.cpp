@@ -92,6 +92,8 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
         if(NFailed(result)){
             std::cout << "NFileWriteAllBytesCN() failed" << std::endl;
             return false;
+        } else {
+            saveImage(frame, userName);
         }
     } else {
 
