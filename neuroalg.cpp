@@ -383,62 +383,62 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 }
 
 bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
-    NResult result = N_OK;
+//    NResult result = N_OK;
 
-    // create biometric client
-    HNBiometricClient hBiometricClient = NULL;
-    result = NBiometricClientCreate(&hBiometricClient);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        return false;
-    }
+//    // create biometric client
+//    HNBiometricClient hBiometricClient = NULL;
+//    result = NBiometricClientCreate(&hBiometricClient);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+//        return false;
+//    }
 
-    // create biometric task to enroll
-    result = NBiometricEngineCreateTask(hBiometricClient, nboEnroll, NULL, NULL, &hBiometricTaskForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
-        return false;
-    }
+//    // create biometric task to enroll
+//    result = NBiometricEngineCreateTask(hBiometricClient, nboEnroll, NULL, NULL, &hBiometricTaskForId);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
+//        return false;
+//    }
 
 
-    // read templates
-    QDir* dir = new QDir(QString(lpPath));
-    dir->setNameFilters(QStringList("*.dat"));
-    dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+//    // read templates
+//    QDir* dir = new QDir(QString(lpPath));
+//    dir->setNameFilters(QStringList("*.dat"));
+//    dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
 
-    QFileInfoList files = dir->entryInfoList();
-    HNSubject hTemplateSubject = NULL;
-    QFileInfo f;
-    HNString hSubjectId = NULL;
-    for(int i = 0; i < files.count(); i ++){
-        f = files[i];
-        // create subject for gallery templates
-        result = NSubjectCreate(&hTemplateSubject);
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
-            return false;
-        }
-        // create gallery subject id
-        result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
-            return false;
-        }
-//        // set template for gallery subject
-//        result = CreateSubject(hGallerySubject, argv[i], hSubjectId);
+//    QFileInfoList files = dir->entryInfoList();
+//    HNSubject hTemplateSubject = NULL;
+//    QFileInfo f;
+//    HNString hSubjectId = NULL;
+//    for(int i = 0; i < files.count(); i ++){
+//        f = files[i];
+//        // create subject for gallery templates
+//        result = NSubjectCreate(&hTemplateSubject);
 //        if (NFailed(result))
 //        {
-//            PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
-//            goto FINALLY;
+//            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
+//            return false;
 //        }
+//        // create gallery subject id
+//        result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
+//        if (NFailed(result))
+//        {
+//            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
+//            return false;
+//        }
+////        // set template for gallery subject
+////        result = CreateSubject(hGallerySubject, argv[i], hSubjectId);
+////        if (NFailed(result))
+////        {
+////            PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
+////            goto FINALLY;
+////        }
 
 
-    }
-    delete dir;
+//    }
+//    delete dir;
     return true;
 }
 
