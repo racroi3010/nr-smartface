@@ -39,11 +39,14 @@ private:
     NBiometricStatus biometricStatus = nbsNone;
     HNLAttributes hLAtributes = NULL;
 
-    // matching
-    HNBiometricTask hBiometricTaskForId;
+    // face matching
+    HNBiometricClient hBiometricClientForId = NULL;
+    NBiometricStatus biometricStatusForId = nbsNone;
 
 
+    NResult createTemplate(cv::Mat frame, HNBuffer *hBuffer);
     NResult CreateSubject(HNSubject hSubject, HNBuffer *hBuffer, HNString subjectId);
+    NResult CreateSubject(HNSubject hSubject, const NChar * fileName, HNString subjectId);
     NResult createSubjectFromImage(HNSubject hSubject, const NChar * fileName, HNString subjectId);
     HNImage convertMat2Image(cv::Mat frame);
 };

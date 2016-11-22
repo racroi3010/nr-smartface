@@ -52,10 +52,11 @@ void ProcessingThread::run()
         QRect rect(face.x, face.y, face.width, face.height);
         emit newFace(rect);
 
-        //QString userName = this->faceAlg->imageCmp(currentFrame);
-        //qDebug() << msg + "\n";
-        //emit newUser(userName);
-
+        if(rect.width() > 0 && rect.height() > 0){
+            QString userName = this->faceAlg->imageCmp(currentFrame);
+            qDebug() << msg + "\n";
+            emit newUser(userName);
+        }
 
         this->processingMutex.unlock();
     }
