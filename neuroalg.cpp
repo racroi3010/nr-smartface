@@ -252,124 +252,124 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 }
 
 bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
-    NResult result = N_OK;
+//    NResult result = N_OK;
 
-    // create biometric client
-    result = NBiometricClientCreate(&hBiometricClientForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        return false;
-    }
+//    // create biometric client
+//    result = NBiometricClientCreate(&hBiometricClientForId);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+//        return false;
+//    }
 
-    // create biometric task to enroll
-    HNBiometricTask hBiometricTaskForId = NULL;
-    result = NBiometricEngineCreateTask(hBiometricClientForId, nboEnroll, NULL, NULL, &hBiometricTaskForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
-        return false;
-    }
+//    // create biometric task to enroll
+//    HNBiometricTask hBiometricTaskForId = NULL;
+//    result = NBiometricEngineCreateTask(hBiometricClientForId, nboEnroll, NULL, NULL, &hBiometricTaskForId);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
+//        return false;
+//    }
 
-    // read templates
-    QDir* dir = new QDir(QString(lpPath));
-    dir->setNameFilters(QStringList("*.dat"));
-    dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+//    // read templates
+//    QDir* dir = new QDir(QString(lpPath));
+//    dir->setNameFilters(QStringList("*.dat"));
+//    dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
 
-    QFileInfoList files = dir->entryInfoList();
-    HNSubject hTemplateSubject = NULL;
-    QFileInfo f;
-    HNString hSubjectId = NULL;
-    for(int i = 0; i < files.count(); i ++){
-        f = files[i];
-        // create subject for gallery templates
-        result = NSubjectCreate(&hTemplateSubject);
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
-            continue;
-        }
-        // create gallery subject id
-        result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
-            continue;
-        }
-        // set template for gallery subject
-        result = CreateSubject(hTemplateSubject, f.absoluteFilePath().toStdString().c_str(), hSubjectId);
-        if (NFailed(result))
-        {
-            PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
-            continue;
-        }
+//    QFileInfoList files = dir->entryInfoList();
+//    HNSubject hTemplateSubject = NULL;
+//    QFileInfo f;
+//    HNString hSubjectId = NULL;
+//    for(int i = 0; i < files.count(); i ++){
+//        f = files[i];
+//        // create subject for gallery templates
+//        result = NSubjectCreate(&hTemplateSubject);
+//        if (NFailed(result))
+//        {
+//            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
+//            continue;
+//        }
+//        // create gallery subject id
+//        result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
+//        if (NFailed(result))
+//        {
+//            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
+//            continue;
+//        }
+//        // set template for gallery subject
+//        result = CreateSubject(hTemplateSubject, f.absoluteFilePath().toStdString().c_str(), hSubjectId);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
+//            continue;
+//        }
 
-        // add subject to biometric task
-        result = NBiometricTaskAddSubject(hBiometricTaskForId, hTemplateSubject, NULL);
-        if (NFailed(result))
-        {
-            PrintErrorMsg(N_T("NBiometricTaskAddSubject() failed (result = %d)!"), result);
-            continue;
-        }
+//        // add subject to biometric task
+//        result = NBiometricTaskAddSubject(hBiometricTaskForId, hTemplateSubject, NULL);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("NBiometricTaskAddSubject() failed (result = %d)!"), result);
+//            continue;
+//        }
 
-        // free unneeded hTemplateSubject
-        result = NObjectSet(NULL, (HNObject *)&hTemplateSubject);
-        if (NFailed(result))
-        {
-            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            continue;
-        }
+//        // free unneeded hTemplateSubject
+//        result = NObjectSet(NULL, (HNObject *)&hTemplateSubject);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+//            continue;
+//        }
 
-        // free unneeded hSubjectId
-        result = NStringSet(NULL, &hSubjectId);
-        if (NFailed(result))
-        {
-            PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
-            continue;
-        }
+//        // free unneeded hSubjectId
+//        result = NStringSet(NULL, &hSubjectId);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
+//            continue;
+//        }
 
-    }
-    // perform biometric task
-    result = NBiometricEnginePerformTask(hBiometricClientForId, hBiometricTaskForId);
-    if (NFailed(result))
-    {
-        PrintErrorMsg(N_T("NBiometricEnginePerformTask() failed (result = %d)!"), result);
-        delete dir;
-        return false;
-    }
+//    }
+//    // perform biometric task
+//    result = NBiometricEnginePerformTask(hBiometricClientForId, hBiometricTaskForId);
+//    if (NFailed(result))
+//    {
+//        PrintErrorMsg(N_T("NBiometricEnginePerformTask() failed (result = %d)!"), result);
+//        delete dir;
+//        return false;
+//    }
 
-    // retrieve biometric task's status
-    result = NBiometricTaskGetStatus(hBiometricTaskForId, &biometricStatusForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-        delete dir;
-        return false;
-    }
+//    // retrieve biometric task's status
+//    result = NBiometricTaskGetStatus(hBiometricTaskForId, &biometricStatusForId);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+//        delete dir;
+//        return false;
+//    }
 
-    if(biometricStatusForId == nbsOk){
-        NInt matchingThreshold = 48;
-        NBool parameter = NTrue;
-        // set matching threshold
-        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.Threshold"), N_TYPE_OF(NInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, NTrue);
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-            delete dir;
-            return false;
-        }
+//    if(biometricStatusForId == nbsOk){
+//        NInt matchingThreshold = 48;
+//        NBool parameter = NTrue;
+//        // set matching threshold
+//        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.Threshold"), N_TYPE_OF(NInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, NTrue);
+//        if (NFailed(result))
+//        {
+//            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+//            delete dir;
+//            return false;
+//        }
 
-        // set matching speed
-        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
-        if (NFailed(result))
-        {
-            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-            delete dir;
-            return false;
-        }
-    }
+//        // set matching speed
+//        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
+//        if (NFailed(result))
+//        {
+//            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+//            delete dir;
+//            return false;
+//        }
+//    }
 
-    delete dir;
+//    delete dir;
     return true;
 }
 
