@@ -132,6 +132,12 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
 cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
+    // face detection
+    HNSubject hSubject = NULL;
+    HNFace hFace = NULL;
+    HNBiometricClient hBiometricClient = NULL;
+    NBiometricStatus biometricStatus = nbsNone;
+    HNLAttributes hLAtributes = NULL;
 
     // create subject
     result = NSubjectCreate(&hSubject);
@@ -341,7 +347,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
         return false;
     }
 
-    if(biometricStatus == nbsOk){
+    if(biometricStatusForId == nbsOk){
         NInt matchingThreshold = 48;
         NBool parameter = NTrue;
         // set matching threshold
