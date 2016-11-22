@@ -48,15 +48,18 @@ void ProcessingThread::run()
         // Get frame from queue, store in currentFrame, set ROI
         QString msg = "";
         this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get().clone();
+#ifdef USE_NEURO
+        cv::cvtColor(this->currentFrame, this->currentFrame, CV_BGR2RGB);
+#endif
         cv::Rect face = this->faceAlg->faceDetect(currentFrame);
         QRect rect(face.x, face.y, face.width, face.height);
         emit newFace(rect);
 
-//        if(rect.width() > 0 && rect.height() > 0){
-//            QString userName = this->faceAlg->imageCmp(currentFrame);
-//            qDebug() << msg + "\n";
-//            emit newUser(userName);
-//        }
+        if(rect.width() > 0 && rect.height() > 0){
+            QString userName = this->faceAlg->imageCmp(currentFrame);
+            qDebug() << msg + "\n";
+            emit newUser(userName);
+        }
 
         this->processingMutex.unlock();
     }
