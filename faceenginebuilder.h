@@ -15,7 +15,7 @@ public:
     };
     FaceEngineBuilder();
     static FaceAlgInterface * getEngine(ENGINE_TYPE type){
-        if(faInstance){
+        if(!faInstance){
             if(type == ENGINE_NEURO){
                 faInstance = new NeuroAlg();
             } else {
