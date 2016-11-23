@@ -1,14 +1,11 @@
 #include "checklicensethread.h"
 
-CheckLicenseThread::CheckLicenseThread(QMessageBox *msgBox)
+CheckLicenseThread::CheckLicenseThread()
 {
-    if(msgBox){
-        msgBox->setModal(true);
-        msgBox->show();
-    }
 }
 
 void CheckLicenseThread::run(){
+    emit startValidateLicense();
     bool rs = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->checkLicense();
     emit validateLicense(rs);
 }

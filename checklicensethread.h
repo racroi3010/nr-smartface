@@ -8,10 +8,11 @@ class CheckLicenseThread: public FixedQThread
 {
     Q_OBJECT
 public:
-    CheckLicenseThread(QMessageBox *msgBox);
+    CheckLicenseThread();
     void run();
 signals:
     void validateLicense(bool result);
+    void startValidateLicense();
 };
 
 #endif // CHECKLICENSETHREAD_H

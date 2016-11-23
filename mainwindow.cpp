@@ -52,9 +52,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // check license
-    msgBox = new QMessageBox(this);
-    msgBox->setText("<span style=\"color:#000000;\">Checking License...</span>");
-    CheckLicenseThread *thread = new CheckLicenseThread(msgBox);
+
+    CheckLicenseThread *thread = new CheckLicenseThread();
+    connect(thread, SIGNAL(startValidateLicense()), this, SLOT(startLicenseChecking()));
     connect(thread, SIGNAL(validateLicense(bool)), this, SLOT(checkLicense(bool)));
 
 
@@ -108,6 +108,13 @@ void MainWindow::showTime()
     ui->labelTime->setText("<span style=\"color:#ffffff;\">" + dateTime.toString("yyyy.MM.dd hh:mm:ss") +"</span>");
 
 }
+void MainWindow::startLicenseChecking(){
+    msgBox = new QMessageBox(this);
+    msgBox->setText("<span style=\"color:#000000;\">Checking License...</span>");
+    msgBox->setModal(true);
+    msgBox->show();
+}
+
 void MainWindow::checkLicense(bool result){
     if(msgBox){
         if(result){

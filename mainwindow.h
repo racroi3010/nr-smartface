@@ -40,6 +40,7 @@ private slots:
 
     void showTime();
 
+    void startLicenseChecking();
     void checkLicense(bool result);
 
 private:
