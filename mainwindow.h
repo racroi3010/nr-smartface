@@ -12,6 +12,7 @@
 #include "dialoguseranalysis_new.h"
 #include "dialoguserlist_new.h"
 #include "dialogsetting.h"
+#include "checklicensethread.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,10 +40,14 @@ private slots:
 
     void showTime();
 
+    void checkLicense(bool result);
+
 private:
     Ui::MainWindow *ui;
     VideoProcessing *vProcessing;
     BaseDialog *dialog;
+
+    QMessageBox *msgBox;
 };
 
 #endif // MAINWINDOW_H

@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     BaseDialog.cpp \
     digitalclock.cpp \
     neuroalg.cpp \
-    faceenginebuilder.cpp
+    faceenginebuilder.cpp \
+    checklicensethread.cpp
 
 HEADERS  += mainwindow.h \
     Buffer.h \
@@ -66,7 +67,8 @@ HEADERS  += mainwindow.h \
     neuroalg.h \
     facealginterface.h \
     TutorialUtils.h \
-    faceenginebuilder.h
+    faceenginebuilder.h \
+    checklicensethread.h
 
 FORMS    += mainwindow.ui \
     dialoguserregister_new.ui \
