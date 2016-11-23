@@ -12,10 +12,11 @@ DialogSetting::DialogSetting(QWidget *parent) :
 
     PreferenceHandler *preHandler = PreferenceHandler::getInstance();
 
-    ui->spb_eyemax->setValue(preHandler->getEyeMax());
-    ui->spb_eyemin->setValue(preHandler->getEyeMin());
-    ui->spb_maxRelValue->setValue(preHandler->getMaxRelValue());
-    ui->spb_relValue->setValue(preHandler->getRelValue());
+//    ui->spb_eyemax->setValue(preHandler->getEyeMax());
+//    ui->spb_eyemin->setValue(preHandler->getEyeMin());
+//    ui->spb_maxRelValue->setValue(preHandler->getMaxRelValue());
+//    ui->spb_relValue->setValue(preHandler->getRelValue());
+    ui->spb_matching->setValue(preHandler->getMatching());
 }
 
 DialogSetting::~DialogSetting()
@@ -30,6 +31,7 @@ void DialogSetting::on_btnMenu_clicked()
 
 void DialogSetting::on_btnSave_clicked()
 {
+#ifdef USE_NEOFACE
     float relValue = ui->spb_relValue->value();
     float maxRelValue = ui->spb_maxRelValue->value();
     int eyeMin = ui->spb_eyemin->value();
@@ -39,6 +41,13 @@ void DialogSetting::on_btnSave_clicked()
     PreferenceHandler::getInstance()->setEyeMin(eyeMin);
     PreferenceHandler::getInstance()->setMaxRelValue(maxRelValue);
     PreferenceHandler::getInstance()->setRelValue(relValue);
+#endif
+
+#ifdef USE_NEURO
+    int matching = ui->spb_matching->value();
+    PreferenceHandler::getInstance()->setMatching(matching);
+#endif
+
 
     QMessageBox *bx = new QMessageBox(this);
     if(PreferenceHandler::getInstance()->saveXMLDom())

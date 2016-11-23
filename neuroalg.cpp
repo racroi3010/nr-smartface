@@ -360,7 +360,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     }
 
     if(biometricStatusForId == nbsOk){
-        NInt matchingThreshold = 48;
+        NInt matchingThreshold = PreferenceHandler::getInstance()->getMatching();
         NBool parameter = NTrue;
         // set matching threshold
         result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.Threshold"), N_TYPE_OF(NInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, NTrue);

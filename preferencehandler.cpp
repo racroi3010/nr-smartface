@@ -2,6 +2,11 @@
 PreferenceHandler * PreferenceHandler::m_preHandler = 0;
 PreferenceHandler::PreferenceHandler()
 {
+#ifdef USE_NEURO
+    this->matching = 48;
+    this->tag_matching = "MATCHING";
+#endif
+#ifdef USE_NEOFACE
     this->relValue = 0.4;
     this->maxRelValue = 0.7;
     this->eyeMin = 20;
@@ -10,6 +15,8 @@ PreferenceHandler::PreferenceHandler()
     tag_maxRelValue = "MAX_REL_VALUE";
     tag_eyeMin = "EYE_MIN";
     tag_eyeMax = "EYE_MAX";
+#endif
+
     tag_startRootElement = "SETTINGS";
     tag_startElement = "SET";
 
@@ -32,7 +39,11 @@ bool PreferenceHandler::saveXMLDom()
 
     QDomElement elem = doc.createElement(this->tag_startElement);
     docElem.appendChild(elem);
-
+#ifdef USE_NEURO
+    QDomElement elem_matching = doc.createElement(this->tag_matching);
+    elem_matching.appendChild(doc.createTextNode(QString::number(this->matching)));
+#endif
+#ifdef USE_NEOFACE
     QDomElement elem_relvalue = doc.createElement(this->tag_relValue);
     elem_relvalue.appendChild(doc.createTextNode(QString::number(this->relValue)));
 
@@ -50,6 +61,8 @@ bool PreferenceHandler::saveXMLDom()
     elem.appendChild(elem_maxrelvalue);
     elem.appendChild(elem_eyemax);
     elem.appendChild(elem_eyemin);
+#endif
+
 
     QFile newFile(fileXml);
     if(!newFile.open(QIODevice::WriteOnly))
@@ -96,6 +109,13 @@ bool PreferenceHandler::readXMLDom()
             for(int i = 0; i < eChilds.size(); i ++)
             {
                 QDomElement eChildElem = eChilds.at(i).toElement();
+#ifdef USE_NEURO
+                if(eChildElem.tagName() == this->tag_matching)
+                {
+                    this->matching  = eChildElem.text().toInt();
+                }
+#endif
+#ifdef USE_NEOFACE
                 if(eChildElem.tagName() == this->tag_relValue)
                 {
                     this->relValue  = eChildElem.text().toFloat();
@@ -112,46 +132,61 @@ bool PreferenceHandler::readXMLDom()
                 {
                     this->eyeMin = eChildElem.text().toInt();
                 }
+#endif
+
             }
         }
     }
     return true;
 }
-void PreferenceHandler::setRelValue(float v)
-{
-    this->relValue = v;
-}
+#ifdef USE_NEURO
+    void PreferenceHandler::setMatching(int v){
+        this->matching = v;
+    }
 
-void PreferenceHandler::setMaxRelValue(float v)
-{
-    this->maxRelValue = v;
-}
+    int PreferenceHandler::getMatching(){
+        return this->matching;
+    }
 
-void PreferenceHandler::setEyeMin(int e)
-{
-    this->eyeMin = e;
-}
+#endif
+#ifdef USE_NEOFACE
+    void PreferenceHandler::setRelValue(float v)
+    {
+        this->relValue = v;
+    }
 
-void PreferenceHandler::setEyeMax(int e)
-{
-    this->eyeMax = e;
-}
-float PreferenceHandler::getRelValue()
-{
-    return this->relValue;
-}
+    void PreferenceHandler::setMaxRelValue(float v)
+    {
+        this->maxRelValue = v;
+    }
 
-float PreferenceHandler::getMaxRelValue()
-{
-    return this->maxRelValue;
-}
+    void PreferenceHandler::setEyeMin(int e)
+    {
+        this->eyeMin = e;
+    }
 
-int PreferenceHandler::getEyeMin()
-{
-    return this->eyeMin;
-}
+    void PreferenceHandler::setEyeMax(int e)
+    {
+        this->eyeMax = e;
+    }
+    float PreferenceHandler::getRelValue()
+    {
+        return this->relValue;
+    }
 
-int PreferenceHandler::getEyeMax()
-{
-    return this->eyeMax;
-}
+    float PreferenceHandler::getMaxRelValue()
+    {
+        return this->maxRelValue;
+    }
+
+    int PreferenceHandler::getEyeMin()
+    {
+        return this->eyeMin;
+    }
+
+    int PreferenceHandler::getEyeMax()
+    {
+        return this->eyeMax;
+    }
+#endif
+

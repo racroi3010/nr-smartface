@@ -11,6 +11,7 @@
 
 #include "facealginterface.h"
 #include "TutorialUtils.h"
+#include "preferencehandler.h"
 
 class NeuroAlg: public FaceAlgInterface
 {
