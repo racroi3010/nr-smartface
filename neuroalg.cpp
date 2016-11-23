@@ -380,24 +380,24 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 bool NeuroAlg::close(){
     NResult result = N_OK;
 
-    result = NLicenseReleaseComponents(additionalComponents2);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NLicenseReleaseComponents(additionalComponents1);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
-        return false;
-    }
-    result = NLicenseReleaseComponents(components);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
-        return false;
-    }
+//    result = NLicenseReleaseComponents(additionalComponents2);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+//        return false;
+//    }
+//    result = NLicenseReleaseComponents(additionalComponents1);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+//        return false;
+//    }
+//    result = NLicenseReleaseComponents(components);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NLicenseReleaseComponents() failed (result = %d)!"), result);
+//        return false;
+//    }
 
 
     NCoreOnExitEx(NFalse);
