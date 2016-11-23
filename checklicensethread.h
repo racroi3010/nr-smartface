@@ -3,11 +3,12 @@
 
 #include "FixedQThread.h"
 #include "faceenginebuilder.h"
+#include <QMessageBox>
 class CheckLicenseThread: public FixedQThread
 {
     Q_OBJECT
 public:
-    CheckLicenseThread();
+    CheckLicenseThread(QMessageBox *msgBox);
     void run();
 signals:
     void validateLicense(bool result);

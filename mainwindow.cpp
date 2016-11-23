@@ -52,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // check license
-    CheckLicenseThread *thread = new CheckLicenseThread();
-    connect(thread, SIGNAL(validateLicense(bool)), this, SLOT(checkLicense(bool)));
     msgBox = new QMessageBox(this);
     msgBox->setText("<span style=\"color:#000000;\">Checking License...</span>");
-    msgBox->setModal(true);
-    msgBox->show();
+    CheckLicenseThread *thread = new CheckLicenseThread(msgBox);
+    connect(thread, SIGNAL(validateLicense(bool)), this, SLOT(checkLicense(bool)));
+
+
     thread->start();
 }
 
@@ -111,10 +111,10 @@ void MainWindow::showTime()
 void MainWindow::checkLicense(bool result){
     if(msgBox){
         if(result){
-            msgBox->setText("<span style=\"color:#000000;\">Checking OK</span>");
+            msgBox->setText("<span style=\"color:#000000;\">License OK</span>");
 
         } else {
-            msgBox->setText("<span style=\"color:#000000;\">Checking Error</span>");
+            msgBox->setText("<span style=\"color:#000000;\">License Error</span>");
         }
         msgBox->show();
     }
