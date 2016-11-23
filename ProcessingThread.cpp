@@ -46,7 +46,7 @@ void ProcessingThread::run()
         this->processingMutex.lock();
         // Get frame from queue, store in currentFrame, set ROI
         QString msg = "";
-        this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get();
+        this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get().clone();
 #ifdef USE_NEURO
         cv::cvtColor(this->currentFrame, this->currentFrame, CV_BGR2RGB);
 #endif
@@ -60,6 +60,7 @@ void ProcessingThread::run()
             emit newUser(userName);
         }
 
+        this->currentFrame.release();
         this->processingMutex.unlock();
     }
     qDebug() << "Stopping processing thread...";
