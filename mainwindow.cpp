@@ -112,7 +112,7 @@ void MainWindow::startLicenseChecking(){
     msgBox = new QMessageBox(this);
     msgBox->setText("<span style=\"color:#000000;\">Checking License...</span>");
     msgBox->setModal(true);
-    msgBox->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint);
+    msgBox->setWindowFlags(Qt::Dialog| Qt::CustomizeWindowHint|Qt::WindowTitleHint);
     msgBox->exec();
 }
 
