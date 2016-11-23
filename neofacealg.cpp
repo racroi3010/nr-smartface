@@ -1,9 +1,5 @@
 #include "neofacealg.h"
 
-NeoFaceAlg::NeoFaceAlg()
-{
-
-}
 bool NeoFaceAlg::SerializeFeature(CFaceFeature *fet,char* fileName) //VA»
 {
 #ifdef USE_NEOFACE

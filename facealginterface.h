@@ -26,6 +26,8 @@ public:
         cv::imwrite(path.toStdString(), frame);
         return true;
     }
+
+
 };
 
 #endif // FACEALGINTERFACE

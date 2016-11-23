@@ -74,7 +74,6 @@ using namespace NeoFaceM;
 class NeoFaceAlg: public FaceAlgInterface
 {
 public:
-    NeoFaceAlg();
     bool imageReg(QString userName, cv::Mat& frame);
     QString imageCmp(cv::Mat& frame);
     Rect faceDetect(cv::Mat& frame);

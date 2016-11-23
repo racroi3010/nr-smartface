@@ -10,14 +10,14 @@ ProcessingThread::ProcessingThread(SharedImageBuffer *sharedImageBuffer, int dev
     this->doStop=false;
     this->isStop = false;
 
-#ifdef USE_NEOFACE
-    this->faceAlg = new NeoFaceAlg();
-#elif defined(USE_NEURO)
-    this->faceAlg = new NeuroAlg();
-#endif
+//#ifdef USE_NEOFACE
+//    this->faceAlg = new NeoFaceAlg();
+//#elif defined(USE_NEURO)
+//    this->faceAlg = new NeuroAlg();
+//#endif
 
     featurePath = QDir::currentPath() + "/feature/";
-    this->faceAlg->LoadFeatures(featurePath.toStdString().c_str(), 0);
+    FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->LoadFeatures(featurePath.toStdString().c_str(), 0);
 }
 ProcessingThread::~ProcessingThread()
 {
@@ -37,7 +37,7 @@ void ProcessingThread::run()
         {
             this->doStop=false;
             this->doStopMutex.unlock();
-            this->faceAlg->close();
+            FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->close();
             break;
         }
         this->doStopMutex.unlock();
@@ -51,12 +51,12 @@ void ProcessingThread::run()
 #ifdef USE_NEURO
         cv::cvtColor(this->currentFrame, this->currentFrame, CV_BGR2RGB);
 #endif
-        cv::Rect face = this->faceAlg->faceDetect(currentFrame);
+        cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(currentFrame);
         QRect rect(face.x, face.y, face.width, face.height);
         emit newFace(rect);
 
         if(rect.width() > 0 && rect.height() > 0){
-            QString userName = this->faceAlg->imageCmp(currentFrame);
+            QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
             qDebug() << msg + "\n";
             emit newUser(userName);
         }
@@ -79,19 +79,19 @@ void ProcessingThread::setMode(int mode)
 }
 bool ProcessingThread::checkLicense()
 {
-    return this->faceAlg->checkLicense();
+    return FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->checkLicense();
 }
 bool ProcessingThread::registerUser(QString userNumber, cv::Mat& frame, QString &msg)
 {
-    return this->faceAlg->imageReg(userNumber, frame);
+    return FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageReg(userNumber, frame);
 }
 bool ProcessingThread::saveImage(cv::Mat& frame, QString userNumber)
 {
-    return this->faceAlg->saveImage(frame, userNumber);
+    return FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->saveImage(frame, userNumber);
 }
 bool ProcessingThread::checkFace(cv::Mat& frame)
 {
-    cv::Rect face = this->faceAlg->faceDetect(frame);
+    cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(frame);
     if(face.width == 0 || face.height == 0)
     {
         return false;

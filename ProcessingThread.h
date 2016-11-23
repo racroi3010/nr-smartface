@@ -17,13 +17,7 @@
 #include <QtCore/QQueue>
 #include <QImage>
 
-#include "facealginterface.h"
-#ifdef USE_NEOFACE
-    #include "neofacealg.h"
-#elif defined(USE_NEURO)
-    #include "neuroalg.h"
-#endif
-
+#include "faceenginebuilder.h"
 
 
 class ProcessingThread : public FixedQThread
@@ -55,7 +49,7 @@ class ProcessingThread : public FixedQThread
 
         int proMode;
 
-        FaceAlgInterface * faceAlg;
+//        FaceAlgInterface * faceAlg;
         int deviceNumber;
         QString featurePath;
 

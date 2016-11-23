@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     dialogmatching.cpp \
     BaseDialog.cpp \
     digitalclock.cpp \
-    neuroalg.cpp
+    neuroalg.cpp \
+    faceenginebuilder.cpp
 
 HEADERS  += mainwindow.h \
     Buffer.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     digitalclock.h \
     neuroalg.h \
     facealginterface.h \
-    TutorialUtils.h
+    TutorialUtils.h \
+    faceenginebuilder.h
 
 FORMS    += mainwindow.ui \
     dialoguserregister_new.ui \

@@ -62,7 +62,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnExit_clicked()
 {
 
-    NCoreOnExitEx(NFalse);
+
     this->close();
 }
 

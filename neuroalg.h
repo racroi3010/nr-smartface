@@ -15,7 +15,6 @@
 class NeuroAlg: public FaceAlgInterface
 {
 public:
-    NeuroAlg();
     bool imageReg(QString userName, cv::Mat& frame);
     QString imageCmp(cv::Mat& frame);
     cv::Rect faceDetect(cv::Mat& frame);
@@ -25,8 +24,8 @@ public:
     bool close();
 
     bool checkLicense();
-
 private:
+
     // license
     const NChar * components = {N_T("Biometrics.FaceExtraction")};
     const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
