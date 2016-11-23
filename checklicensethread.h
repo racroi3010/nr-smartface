@@ -10,7 +10,7 @@ public:
     CheckLicenseThread();
     void run();
 signals:
-    void checkLicense(bool result);
+    void validateLicense(bool result);
 };
 
 #endif // CHECKLICENSETHREAD_H
