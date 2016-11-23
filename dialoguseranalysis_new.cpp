@@ -10,7 +10,7 @@ DialogUserAnalysis_New::DialogUserAnalysis_New(QWidget *parent) :
     vProcessing = new VideoProcessing(this);
     vProcessing->start();
 
-    ui->labelStatus->setText("<span style=\"color:#ffffff;\">License OK</span>");
+    ui->labelStatus->setText("");
 }
 
 DialogUserAnalysis_New::~DialogUserAnalysis_New()

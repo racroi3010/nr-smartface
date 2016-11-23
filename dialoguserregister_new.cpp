@@ -10,7 +10,8 @@ DialogUserRegister_new::DialogUserRegister_new(QWidget *parent) :
     vProcessing = new VideoProcessing(this);
     vProcessing->start();
 
-    ui->labelStatus->setText("<span style=\"color:#ffffff;\">License OK</span>");
+    //ui->labelStatus->setText("<span style=\"color:#ffffff;\">License OK</span>");
+    ui->labelStatus->setText("");
 }
 
 DialogUserRegister_new::~DialogUserRegister_new()
