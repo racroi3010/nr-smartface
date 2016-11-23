@@ -408,21 +408,21 @@ bool NeuroAlg::close(){
 bool NeuroAlg::checkLicense(){
     NBool additionalObtained = NFalse;
     NBool available = NFalse;
-    NResult result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), components, &available);
+    NResult result = NLicenseObtainComponents(N_T("/local"), N_T("2000"), components, &available);
     if (NFailed(result))
     {
         printf(N_T("NLicenseObtainComponents failed\n"), components);
         return false;
     }
 
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents1, &additionalObtained);
+    result = NLicenseObtainComponents(N_T("/local"), N_T("2000"), additionalComponents1, &additionalObtained);
     if (NFailed(result))
     {
         printf(N_T("NLicenseObtainComponents failed\n"), additionalComponents1);
         return false;
     }
     NBool match = NFalse;
-    result = NLicenseObtainComponents(N_T("/local"), N_T("5000"), additionalComponents2, &match);
+    result = NLicenseObtainComponents(N_T("/local"), N_T("2000"), additionalComponents2, &match);
     if (NFailed(result))
     {
         printf(N_T("NLicenseObtainComponents failed\n"), additionalComponents2);
