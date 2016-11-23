@@ -17,7 +17,7 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
         std::cout << "NFileWriteAllBytesCN() failed" << std::endl;
         return false;
     } else {
-        //cv::cvtColor(frame, frame, CV_BGR2RGB);
+        cv::cvtColor(frame, frame, CV_RGB2BGR);
         QString path = QDir::currentPath() + "/temp/" + userName + ".bmp";
         cv::imwrite(path.toStdString(), frame);
     }
