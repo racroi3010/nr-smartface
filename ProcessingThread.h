@@ -30,7 +30,7 @@ class ProcessingThread : public FixedQThread
 
         void stop();
         void setMode(int mode);
-        bool checkLicense();
+        //bool checkLicense();
         bool registerUser(QString userNumber, cv::Mat& frame, QString &msg);
         bool saveImage(cv::Mat& frame, QString userNumber);
         bool checkFace(cv::Mat& frame);

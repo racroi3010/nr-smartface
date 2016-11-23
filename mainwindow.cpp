@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // remove history
 
 
+    // check license
+    FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->checkLicense();
 
 }
 
@@ -62,7 +64,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnExit_clicked()
 {
 
-
+    FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->close();
     this->close();
 }
 

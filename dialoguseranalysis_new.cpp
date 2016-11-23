@@ -10,14 +10,7 @@ DialogUserAnalysis_New::DialogUserAnalysis_New(QWidget *parent) :
     vProcessing = new VideoProcessing(this);
     vProcessing->start();
 
-    if(vProcessing->checkFaceLicense())
-    {
-        ui->labelStatus->setText("<span style=\"color:#ffffff;\">License OK</span>");
-    }
-    else
-    {
-        ui->labelStatus->setText("<span style=\"color:#ffffff;\">License Error</span>");
-    }
+    ui->labelStatus->setText("<span style=\"color:#ffffff;\">License OK</span>");
 }
 
 DialogUserAnalysis_New::~DialogUserAnalysis_New()

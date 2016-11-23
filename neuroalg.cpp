@@ -393,7 +393,7 @@ bool NeuroAlg::close(){
         return false;
     }
 
-    //NCoreOnExitEx(NFalse);
+    NCoreOnExitEx(NFalse);
 
 
     return true;

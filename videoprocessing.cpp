@@ -39,17 +39,9 @@ bool VideoProcessing::start()
         processingThread->start();
 
         connect(cameraThread, SIGNAL(newFrame(QImage)), mDialog, SLOT(updateFrame(QImage)));
-        if(processingThread->checkLicense())
-        {
-
-            //processingThread->setMode(ProcessingThread::MODE_FACE_DETECT);
-            connect(processingThread, SIGNAL(newFace(QRect)), mDialog, SLOT(updateFace(QRect)));
-            connect(processingThread, SIGNAL(newUser(QString)), mDialog, SLOT(updateUser(QString)));
-        }
-        else
-        {
-            return false;
-        }
+        //processingThread->setMode(ProcessingThread::MODE_FACE_DETECT);
+        connect(processingThread, SIGNAL(newFace(QRect)), mDialog, SLOT(updateFace(QRect)));
+        connect(processingThread, SIGNAL(newUser(QString)), mDialog, SLOT(updateUser(QString)));
 
 
     }
@@ -85,10 +77,10 @@ void VideoProcessing::resumeCam()
 {
     cameraThread->resume();
 }
-bool VideoProcessing::checkFaceLicense()
-{
-    return processingThread->checkLicense();
-}
+//bool VideoProcessing::checkFaceLicense()
+//{
+//    return processingThread->checkLicense();
+//}
 
 bool VideoProcessing::registerUser(QString userNumber, QString userName, cv::Mat image, QString &msg)
 {

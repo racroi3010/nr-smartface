@@ -37,7 +37,6 @@ void ProcessingThread::run()
         {
             this->doStop=false;
             this->doStopMutex.unlock();
-            FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->close();
             break;
         }
         this->doStopMutex.unlock();
@@ -76,10 +75,6 @@ void ProcessingThread::stop()
 void ProcessingThread::setMode(int mode)
 {
     this->proMode = mode;
-}
-bool ProcessingThread::checkLicense()
-{
-    return FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->checkLicense();
 }
 bool ProcessingThread::registerUser(QString userNumber, cv::Mat& frame, QString &msg)
 {

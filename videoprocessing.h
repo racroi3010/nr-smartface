@@ -25,7 +25,7 @@ public:
     bool registerUser(QString userNumber, QString userName, cv::Mat image, QString &msg);
     bool saveImage(cv::Mat& image, QString userNumber);
     bool checkExistUser(QString userNumber);
-    bool checkFaceLicense();
+    //bool checkFaceLicense();
 private:
     BaseDialog *mDialog;
     int deviceId;
