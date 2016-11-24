@@ -15,9 +15,10 @@ class DialogMatching : public QDialog
 public:
     explicit DialogMatching(QWidget *parent = 0, QString Id = NULL);
     ~DialogMatching();
-
+    void setId(QString Id);
 private:
     Ui::DialogMatching *ui;
+    QString userId;
 };
 
 #endif // DIALOGMATCHING_H

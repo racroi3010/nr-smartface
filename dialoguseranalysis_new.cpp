@@ -11,10 +11,15 @@ DialogUserAnalysis_New::DialogUserAnalysis_New(QWidget *parent) :
     vProcessing->start();
 
     ui->labelStatus->setText("");
+
+    d = new DialogMatching(this);
+    d->setGeometry(50, 50, 200, 100);
 }
 
 DialogUserAnalysis_New::~DialogUserAnalysis_New()
 {
+    delete vProcessing;
+    delete d;
     delete ui;
 }
 void DialogUserAnalysis_New::updateFrame(QImage qImage)
@@ -40,13 +45,9 @@ void DialogUserAnalysis_New::updateUser(QString user)
             currentUserNumber = "";
         }
         if(!currentUserNumber.isEmpty()){
-            DialogMatching *d = new DialogMatching(this, currentUserNumber);
-            //QTimer *timer = new QTimer(this);
-            //connect(timer, SIGNAL(timeout()), d, SLOT(close()));
-            //d->setModal(true);
-            d->setGeometry(50, 50, 200, 100);
+            d->setId(currentUserNumber);
             d->show();
-            QTimer::singleShot(3000, d, SLOT(close()));
+            QTimer::singleShot(3000, d, SLOT(hide()));
             //timer->start(3000);
         }
 

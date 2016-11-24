@@ -42,7 +42,7 @@ private slots:
 private:
     Ui::DialogUserAnalysis_New *ui;
     VideoProcessing *vProcessing;
-
+    DialogMatching *d;
     QRect currentFace;
     QString currentUserNumber;
     cv::Mat currentImage;
