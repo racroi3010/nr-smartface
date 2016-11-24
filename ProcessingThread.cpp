@@ -54,17 +54,16 @@ void ProcessingThread::run()
             cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(currentFrame);
             QRect rect(face.x, face.y, face.width, face.height);
             emit newFace(rect);
+
+            if(rect.width() > 0){
+                QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
+                qDebug() << msg + "\n";
+                emit newUser(userName);
+            }
         } catch (...) {
             qDebug() << "Exception faceDetect\n";
         }
 
-        try {
-            QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
-            qDebug() << msg + "\n";
-            emit newUser(userName);
-        } catch (...) {
-            qDebug() << "Exception imageCmp\n";
-        }
 
         this->currentFrame.release();
 
