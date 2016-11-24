@@ -4,6 +4,7 @@
 #include "FixedQThread.h"
 #include "faceenginebuilder.h"
 #include <QMessageBox>
+#include <QProcess>
 class CheckLicenseThread: public FixedQThread
 {
     Q_OBJECT
