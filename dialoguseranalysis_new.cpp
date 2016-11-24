@@ -36,7 +36,8 @@ void DialogUserAnalysis_New::updateFrame(QImage qImage)
 }
 void DialogUserAnalysis_New::updateUser(QString user)
 {
-    if(user != "unknown" && (currentUserNumber.isNull() || currentUserNumber != user))
+    if(user != "unknown")
+            //&& (currentUserNumber.isNull() || currentUserNumber != user))
     {
         currentUserNumber = user;
         vProcessing->shot(currentImage);
@@ -44,7 +45,7 @@ void DialogUserAnalysis_New::updateUser(QString user)
         {
             currentUserNumber = "";
         }
-        if(!currentUserNumber.isEmpty()){
+        if(!currentUserNumber.isEmpty() && d->isHidden()){
             d->setId(currentUserNumber);
             d->show();
             QTimer::singleShot(3000, d, SLOT(hide()));
