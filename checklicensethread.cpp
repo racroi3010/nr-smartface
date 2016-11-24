@@ -5,10 +5,10 @@ CheckLicenseThread::CheckLicenseThread()
 }
 
 void CheckLicenseThread::run(){
-//    QProcess process;
-//    process.start("./" + QDir::currentPath() + "/license/pgd");
+    QProcess process;
+    process.start("./pgd");
     emit startValidateLicense();
-    //sleep(2);
+    sleep(1);
     bool rs = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->checkLicense();
     emit validateLicense(rs);
 }
