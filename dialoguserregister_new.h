@@ -31,7 +31,7 @@ public:
     ~DialogUserRegister_new();
 
 protected slots:
-    void updateFrame(QImage qImage);
+    void updateFrame(QImage& qImage);
     void updateUser(QString user);
     void updateFace(QRect rect);
 

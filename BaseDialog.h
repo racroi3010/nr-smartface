@@ -23,7 +23,7 @@ public:
     }
 
 protected slots:
-    virtual void updateFrame(QImage image) = 0;
+    virtual void updateFrame(QImage& image) = 0;
     virtual void updateUser(QString user) = 0;
     virtual void updateFace(QRect rect) = 0;
 

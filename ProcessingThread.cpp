@@ -64,9 +64,9 @@ void ProcessingThread::run()
 //            qDebug() << "Exception faceDetect\n";
 //        }
 //
-//        if(this->currentFrame.data){
-//            this->currentFrame.release();
-//        }
+        if(this->currentFrame.data){
+            this->currentFrame.release();
+        }
 
 
         this->processingMutex.unlock();
