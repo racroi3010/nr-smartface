@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // check license
+    QProcess process;
+    process.start("../license/pgd");
 
     CheckLicenseThread *thread = new CheckLicenseThread();
     connect(thread, SIGNAL(startValidateLicense()), this, SLOT(startLicenseChecking()));

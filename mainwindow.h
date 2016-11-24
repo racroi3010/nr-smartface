@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QDateTime>
+#include <QProcess>
 
 #include "dialoguserregister_new.h"
 #include "dialoguseranalysis_new.h"

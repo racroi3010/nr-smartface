@@ -54,13 +54,12 @@ void ProcessingThread::run()
         QRect rect(face.x, face.y, face.width, face.height);
         emit newFace(rect);
 
-        if(rect.width() > 0 && rect.height() > 0){
-            QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
-            qDebug() << msg + "\n";
-            emit newUser(userName);
-        }
+        QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
+        qDebug() << msg + "\n";
+        emit newUser(userName);
 
         this->currentFrame.release();
+
         this->processingMutex.unlock();
     }
     qDebug() << "Stopping processing thread...";
