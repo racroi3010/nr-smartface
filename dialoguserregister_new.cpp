@@ -21,12 +21,13 @@ DialogUserRegister_new::~DialogUserRegister_new()
 void DialogUserRegister_new::updateFrame(QImage qImage)
 {
     if(!qImage.isNull()){
+        QPixmap pm = QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio));
         QPainter painter(&qImage);
         painter.setPen(QPen(Qt::red, 4));
         painter.drawRect(currentFace);
         painter.end();
 
-        ui->labelImage->setPixmap(QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio)));
+        ui->labelImage->setPixmap(pm);
         currentFace = QRect(0, 0, 0, 0);
     }
 }
