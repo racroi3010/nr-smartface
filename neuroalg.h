@@ -38,6 +38,10 @@ private:
     NBiometricStatus biometricStatus = nbsNone;
     HNLAttributes hLAtributes = NULL;
 
+    // compare
+    HNSubject hProbeSubject = NULL;
+    HNString hSubjectId = NULL;
+    HNBuffer hBuffer = NULL;
 
     // face matching
     HNBiometricClient hBiometricClientForId = NULL;

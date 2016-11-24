@@ -29,7 +29,7 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
     NResult result = N_OK;
     QString username = "";
     // create subject for probe template
-    HNSubject hProbeSubject = NULL;
+
     result = NSubjectCreate(&hProbeSubject);
     if (NFailed(result))
     {
@@ -37,7 +37,7 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
         return username;
     }
     // create probe subject id
-    HNString hSubjectId = NULL;
+
     result = NStringCreate(N_T("ProbeSubject"), &hSubjectId);
     if (NFailed(result))
     {
@@ -45,7 +45,7 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
         return username;
     }
     // create template buffer from mat
-    HNBuffer hBuffer = NULL;
+
     result = createTemplate(frame, &hBuffer);
     if(NFailed(result)){
         PrintErrorMsg(N_T("createTemplate() failed (result = %d)!"), result);
