@@ -50,13 +50,21 @@ void ProcessingThread::run()
 #ifdef USE_NEURO
         cv::cvtColor(this->currentFrame, this->currentFrame, CV_BGR2RGB);
 #endif
-        cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(currentFrame);
-        QRect rect(face.x, face.y, face.width, face.height);
-        emit newFace(rect);
+        try {
+            cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(currentFrame);
+            QRect rect(face.x, face.y, face.width, face.height);
+            emit newFace(rect);
+        } catch (...) {
+            qDebug() << "Exception faceDetect\n";
+        }
 
-        QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
-        qDebug() << msg + "\n";
-        emit newUser(userName);
+        try {
+            QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
+            qDebug() << msg + "\n";
+            emit newUser(userName);
+        } catch (...) {
+            qDebug() << "Exception imageCmp\n";
+        }
 
         this->currentFrame.release();
 
