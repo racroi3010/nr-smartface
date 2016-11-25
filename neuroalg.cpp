@@ -1,17 +1,7 @@
 #include "neuroalg.h"
 
 NeuroAlg::NeuroAlg(){
-    // create subject
-    NResult result = NSubjectCreate(&hSubject);
-    if(NFailed(result)){
-        PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
-    }
 
-    // create face for the subject
-    result = NFaceCreate(&hFace);
-    if(NFailed(result)){
-        PrintErrorMsg(N_T("NFaceCreate() failed (result = %d)!"), result);
-    }
 }
 
 NeuroAlg::~NeuroAlg(){
@@ -21,6 +11,32 @@ NeuroAlg::~NeuroAlg(){
         result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
     }
     result = NObjectSet(NULL, (HNObject *)&hFace);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+
+//    // free
+
+    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+//    result = NStringSet(NULL, (HNString *)&biometricStatus);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
+//        return rec;
+//    }
+//    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//        return rec;
+//    }
+
+    result = NObjectSet(NULL, (HNObject *)&hImage);
     if (NFailed(result))
     {
         result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
@@ -171,6 +187,17 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
 
+    // create subject
+    result = NSubjectCreate(&hSubject);
+    if(NFailed(result)){
+        PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
+    }
+
+    // create face for the subject
+    result = NFaceCreate(&hFace);
+    if(NFailed(result)){
+        PrintErrorMsg(N_T("NFaceCreate() failed (result = %d)!"), result);
+    }
 
     // set data
     convertMat2Image(frame, &hImage);
@@ -236,33 +263,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 
     }
 
-//    // free
 
-    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
-//    result = NStringSet(NULL, (HNString *)&biometricStatus);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
-//        return rec;
-//    }
-//    result = NObjectSet(NULL, (HNObject *)&hLAtributes);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-//        return rec;
-//    }
-
-    result = NObjectSet(NULL, (HNObject *)&hImage);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
     return rec;
 
 }
