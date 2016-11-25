@@ -10,28 +10,40 @@ NeuroAlg::~NeuroAlg(){
 
 bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
     NResult result = N_OK;
-
-
-
-    // create template from mat
+    QString tempFile = QDir::currentPath() +"/feature/" + userName + ".dat";
     HNBuffer hBuffer = NULL;
+    bool rs = true;
+    // create template from mat
+
     result = createTemplate(frame, &hBuffer);
     if(NFailed(result)){
         PrintErrorMsg(N_T("createTemplate() failed (result = %d)!"), result);
-        return false;
+        rs = false;
+        goto FINALLY;
     }
-    QString tempFile = QDir::currentPath() +"/feature/" + userName + ".dat";
+
     result = NFileWriteAllBytesCN(N_T(tempFile.toStdString().c_str()), hBuffer);
     if(NFailed(result)){
-        std::cout << "NFileWriteAllBytesCN() failed" << std::endl;
-        return false;
+        PrintErrorMsg(N_T("NFileWriteAllBytesCN() failed (result = %d)!"), result);
+        rs = false;
+        goto FINALLY;
     } else {
         cv::cvtColor(frame, frame, CV_RGB2BGR);
         QString path = QDir::currentPath() + "/temp/" + userName + ".bmp";
         cv::imwrite(path.toStdString(), frame);
     }
 
-    return true;
+FINALLY:
+    {
+        result = NObjectSet(NULL, (HNObject *)&hBuffer);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+
+    }
+
+    return rs;
 }
 
 QString NeuroAlg::imageCmp(cv::Mat& frame){
@@ -307,11 +319,13 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     HNString hSubjectId = NULL;
 
     HNBiometricTask hBiometricTaskForId = NULL;
+    bool rs = true;
     // create biometric client
     result = NBiometricClientCreate(&hBiometricClientForId);
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+        rs = false;
         goto FINALLY;
     }
 
@@ -321,6 +335,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
+        rs = false;
         goto FINALLY;
     }
 
@@ -382,6 +397,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricEnginePerformTask() failed (result = %d)!"), result);
+        rs = false;
         goto FINALLY;
     }
 
@@ -390,6 +406,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+        rs = false;
         goto FINALLY;
     }
 
@@ -401,6 +418,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
         if (NFailed(result))
         {
             PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            rs = false;
             goto FINALLY;
         }
 
@@ -409,6 +427,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
         if (NFailed(result))
         {
             PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            rs = false;
             goto FINALLY;
         }
     }
@@ -423,7 +442,7 @@ FINALLY:
        delete dir;
     }
 
-    return true;
+    return rs;
 }
 
 //bool NeuroAlg::saveImage(cv::Mat& frame, QString userName){
