@@ -52,9 +52,9 @@ void ProcessingThread::run()
         cv::cvtColor(this->currentFrame, imgTemp, CV_BGR2RGB);
 #endif
         try {
-            cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(imgTemp);
-            QRect rect(face.x, face.y, face.width, face.height);
-            emit newFace(rect);
+//            cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(imgTemp);
+//            QRect rect(face.x, face.y, face.width, face.height);
+//            emit newFace(rect);
 
 //            if(rect.width() > 0){
 //                QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(imgTemp);
