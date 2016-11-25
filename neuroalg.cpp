@@ -415,21 +415,11 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 FINALLY:
     {
     //    // free
-        result = NObjectSet(NULL, (HNObject *)&hBiometricClientForId);
-        if (NFailed(result))
-        {
-            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-        }
         result = NObjectSet(NULL, (HNObject *)&hBiometricTaskForId);
         if (NFailed(result))
         {
             PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
         }
-//        result = NObjectSet(NULL, (HNObject *)&biometricStatusForId);
-//        if (NFailed(result))
-//        {
-//            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-//        }
        delete dir;
     }
 
