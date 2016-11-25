@@ -27,6 +27,7 @@ ProcessingThread::~ProcessingThread()
 
 void ProcessingThread::run()
 {
+    cv::Mat imgTemp;
     while(1)
     {
         ////////////////////////////////
@@ -46,27 +47,23 @@ void ProcessingThread::run()
         this->processingMutex.lock();
         // Get frame from queue, store in currentFrame, set ROI
         QString msg = "";
-        this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get().clone();
+        this->currentFrame=this->sharedImageBuffer->getByDeviceNumber(this->deviceNumber)->get();
 #ifdef USE_NEURO
-        cv::cvtColor(this->currentFrame, this->currentFrame, CV_BGR2RGB);
+        cv::cvtColor(this->currentFrame, imgTemp, CV_BGR2RGB);
 #endif
         try {
-            cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(currentFrame);
+            cv::Rect face = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->faceDetect(imgTemp);
             QRect rect(face.x, face.y, face.width, face.height);
             emit newFace(rect);
 
 //            if(rect.width() > 0){
-//                QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(currentFrame);
+//                QString userName = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->imageCmp(imgTemp);
 //                qDebug() << msg + "\n";
 //                emit newUser(userName);
 //            }
         } catch (...) {
             qDebug() << "Exception faceDetect\n";
         }
-
-//        if(this->currentFrame.data){
-//            this->currentFrame.release();
-//        }
 
 
         this->processingMutex.unlock();
