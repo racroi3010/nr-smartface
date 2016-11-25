@@ -664,7 +664,29 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
     }
 FINALLY:
     {
+    //    // free
+        result = NObjectSet(NULL, (HNObject *)&hSubject);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+        result = NObjectSet(NULL, (HNObject *)&hFace);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
 
+        result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+
+        result = NObjectSet(NULL, (HNObject *)&hImage);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
     }
 
     return result;
