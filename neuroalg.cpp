@@ -256,12 +256,12 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 //        return rec;
 //    }
 
-    result = NObjectSet(NULL, (HNObject *)&hImage);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
+//    result = NObjectSet(NULL, (HNObject *)&hImage);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//        return rec;
+//    }
     return rec;
 
 }

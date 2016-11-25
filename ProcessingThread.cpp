@@ -65,7 +65,9 @@ void ProcessingThread::run()
             qDebug() << "Exception faceDetect\n";
         }
 
-
+        if(imgTemp.data){
+            imgTemp.release();
+        }
         this->processingMutex.unlock();
     }
     qDebug() << "Stopping processing thread...";
