@@ -253,18 +253,18 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         return rec;
     }
 
-//    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-//        return rec;
-//    }
-    result = NStringSet(NULL, (HNString *)&biometricStatus);
+    result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
     if (NFailed(result))
     {
-        result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
         return rec;
     }
+//    result = NStringSet(NULL, (HNObject *)&biometricStatus);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
+//        return rec;
+//    }
 
 
     result = NObjectSet(NULL, (HNObject *)&hImage);
