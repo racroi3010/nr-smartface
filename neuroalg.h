@@ -32,6 +32,7 @@ private:
     const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
     const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
     // face detection
+    HNImage hImage = NULL;
     HNSubject hSubject = NULL;
     HNFace hFace = NULL;
     HNBiometricClient hBiometricClient = NULL;
@@ -52,7 +53,7 @@ private:
     NResult CreateSubject(HNSubject hSubject, HNBuffer *hBuffer, HNString subjectId);
     NResult CreateSubject(HNSubject hSubject, const NChar * fileName, HNString subjectId);
     NResult createSubjectFromImage(HNSubject hSubject, const NChar * fileName, HNString subjectId);
-    HNImage convertMat2Image(cv::Mat frame);
+    void convertMat2Image(cv::Mat frame, HNImage *hImage);
 };
 
 #endif // NEUROALG_H

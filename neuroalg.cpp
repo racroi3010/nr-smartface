@@ -161,7 +161,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 
     // set data
-    HNImage hImage = convertMat2Image(frame);
+    convertMat2Image(frame, &hImage);
     result = NFaceSetImage(hFace, hImage);
     if (NFailed(result))
     {
@@ -256,12 +256,12 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 //        return rec;
 //    }
 
-    result = NObjectSet(NULL, (HNObject *)&hImage);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
+//    result = NObjectSet(NULL, (HNObject *)&hImage);
+//    if (NFailed(result))
+//    {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+//        return rec;
+//    }
     return rec;
 
 }
@@ -445,17 +445,15 @@ bool NeuroAlg::checkLicense(){
     }
     return true;
 }
-HNImage NeuroAlg::convertMat2Image(cv::Mat frame){
+void NeuroAlg::convertMat2Image(cv::Mat frame, HNImage *hImage){
     //cv::cvtColor(frame, frame, CV_BGR2RGB);
-    HNImage hImage = NULL;
     NResult result = NImageCreateFromDataEx(NPF_RGB_8U, frame.cols, frame.rows, 0, frame.cols * 3
-                                            , (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, &hImage);
+                                            , (void*)frame.data, frame.cols * frame.rows * 3, NI_SRC_ALPHA_CHANNEL_FIRST, hImage);
     if (NFailed(result))
     {
         std::cout << "NImageCreateFromDataEx failed" << std::endl;
 
     }
-    return hImage;
 }
 NResult NeuroAlg::CreateSubject(HNSubject hSubject, HNBuffer *hBuffer, HNString subjectId){
 //    HNBuffer hBuffer = NULL;
@@ -537,8 +535,8 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
 
     // set data
     //frame = cv::imread("et.bmp", CV_LOAD_IMAGE_COLOR);
-
-    result = NFaceSetImage(hFace, convertMat2Image(frame));
+    convertMat2Image(frame, &hImage);
+    result = NFaceSetImage(hFace, hImage);
     if (NFailed(result))
     {
         result = PrintErrorMsgWithLastError(N_T("NFaceSetImage() failed (result = %d)!"), result);
