@@ -509,7 +509,15 @@ bool UserUtil::removeUser(QString userNumber)
             {
                 e.parentNode().removeChild(e);
                 QFile::remove(filePath_image + userNumber + ".bmp");
+#ifdef USE_NEOFACE
                 QFile::remove(filePath + userNumber + ".fet");
+#endif
+
+#ifdef USE_NEURO
+                QFile::remove(filePath + userNumber + ".dat");
+#endif
+
+
             }
         }
         n = n.nextSibling();
