@@ -25,12 +25,12 @@ DialogUserAnalysis_New::~DialogUserAnalysis_New()
 void DialogUserAnalysis_New::updateFrame(QImage qImage)
 {
     if(!qImage.isNull()){
-        QPixmap pm = QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio));
         QPainter painter(&qImage);
         painter.setPen(QPen(Qt::red, 4));
         painter.drawRect(currentFace);
         painter.end();
 
+        QPixmap pm = QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio));
         ui->labelImage_2->setPixmap(pm);
         currentFace = QRect(0, 0, 0, 0);
     }
