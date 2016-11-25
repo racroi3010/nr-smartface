@@ -33,22 +33,12 @@ private:
     const NChar * components = {N_T("Biometrics.FaceExtraction")};
     const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
     const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
-    // face detection
-    HNImage hImage = NULL;
-//    HNSubject hSubject = NULL;
-//    HNFace hFace = NULL;
-//    HNBiometricClient hBiometricClient = NULL;
-//    NBiometricStatus biometricStatus = nbsNone;
-//    HNLAttributes hLAtributes = NULL;
-
-    // compare
-    HNSubject hProbeSubject = NULL;
-    HNString hSubjectId = NULL;
-    HNBuffer hBuffer = NULL;
 
     // face matching
+
     HNBiometricClient hBiometricClientForId = NULL;
     NBiometricStatus biometricStatusForId = nbsNone;
+
 
 
     NResult createTemplate(cv::Mat frame, HNBuffer *hBuffer);

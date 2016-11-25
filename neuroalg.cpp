@@ -11,6 +11,8 @@ NeuroAlg::~NeuroAlg(){
 bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
     NResult result = N_OK;
 
+
+
     // create template from mat
     HNBuffer hBuffer = NULL;
     result = createTemplate(frame, &hBuffer);
@@ -35,13 +37,18 @@ bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
 QString NeuroAlg::imageCmp(cv::Mat& frame){
     NResult result = N_OK;
     QString username = "";
+
+    HNImage hImage = NULL;
+    HNSubject hProbeSubject = NULL;
+    HNString hSubjectId = NULL;
+    HNBuffer hBuffer = NULL;
     // create subject for probe template
 
     result = NSubjectCreate(&hProbeSubject);
     if (NFailed(result))
     {
         result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
-        return username;
+        goto FINALLY;
     }
     // create probe subject id
 
@@ -49,42 +56,43 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
     if (NFailed(result))
     {
         result = PrintErrorMsgWithLastError(N_T("NStringCreate() failed (result = %d)!"), result);
-        return username;
+        goto FINALLY;
     }
     // create template buffer from mat
 
     result = createTemplate(frame, &hBuffer);
     if(NFailed(result)){
         PrintErrorMsg(N_T("createTemplate() failed (result = %d)!"), result);
-        return username;
+        goto FINALLY;
     }
 
     // set template for probe subject
     result = CreateSubject(hProbeSubject, &hBuffer, hSubjectId);
     if(NFailed(result)){
         PrintErrorMsg(N_T("CreateSubject() failed (result = %d)!"), result);
-        return username;
+        goto FINALLY;
     }
 
     // perform identification
     result = NBiometricEngineIdentify(hBiometricClientForId, hProbeSubject, &biometricStatusForId);
     if (NFailed(result))
     {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineIdentify() failed (result = %d)!"), result);
-        return username;
+        PrintErrorMsg(N_T("NBiometricEngineIdentify() failed (result = %d)!"), result);
+        goto FINALLY;
     }
 
     if(biometricStatusForId == nbsOk){
         // retrieve matching results array
         HNMatchingResult * hMatchingResults = NULL;
         NInt resultsCount = 0;
+        NInt maxScore = 0;
         result = NSubjectGetMatchingResults(hProbeSubject, &hMatchingResults, &resultsCount);
         if (NFailed(result))
         {
-            result = PrintErrorMsgWithLastError(N_T("NSubjectGetMatchingResults() failed (result = %d)!"), result);
-            return username;
+            PrintErrorMsg(N_T("NSubjectGetMatchingResults() failed (result = %d)!"), result);
+            goto FINALLY;
         }
-        NInt maxScore = 0;
+
         for(int i = 0; i < resultsCount; i ++){
             NInt matchScore = 0;
             const NChar * szMatchId = NULL;
@@ -92,21 +100,21 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
             result = NMatchingResultGetId(hMatchingResults[i], &hMatchId);
             if (NFailed(result))
             {
-                result = PrintErrorMsgWithLastError(N_T("NMatchingResultGetId() failed (result = %d)!"), result);
+                PrintErrorMsg(N_T("NMatchingResultGetId() failed (result = %d)!"), result);
                 continue;
             }
 
             result = NStringGetBuffer(hMatchId, NULL, &szMatchId);
             if (NFailed(result))
             {
-                result = PrintErrorMsgWithLastError(N_T("NStringGetBuffer() failed (result = %d)!"), result);
+                PrintErrorMsg(N_T("NStringGetBuffer() failed (result = %d)!"), result);
                 continue;
             }
 
             result = NMatchingResultGetScore(hMatchingResults[i], &matchScore);
             if (NFailed(result))
             {
-                result = PrintErrorMsgWithLastError(N_T("NMatchingResultGetScore() failed (result = %d)!"), result);
+                PrintErrorMsg(N_T("NMatchingResultGetScore() failed (result = %d)!"), result);
                 continue;
             }
             if(maxScore < matchScore){
@@ -118,32 +126,39 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
             result = NStringSet(NULL, &hMatchId);
             if (NFailed(result))
             {
-                result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
+                PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
                 continue;
             }
         }
 
 
     }
-//    // free
-//    result = NObjectSet(NULL, (HNObject *)&hProbeSubject);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-//        return username;
-//    }
-//    result = NStringSet(NULL, (HNString *)&hSubjectId);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NStringSet() failed (result = %d)!"), result);
-//        return username;
-//    }
-//    result = NObjectSet(NULL, (HNObject *)&hBuffer);
-//    if (NFailed(result))
-//    {
-//        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-//        return username;
-//    }
+FINALLY:
+    {
+        // free
+        result = NObjectSet(NULL, (HNObject *)&hProbeSubject);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+        result = NStringSet(NULL, (HNString *)&hSubjectId);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
+        }
+        result = NObjectSet(NULL, (HNObject *)&hBuffer);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+
+        }
+        result = NObjectSet(NULL, (HNObject *)&hImage);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+    }
+
 
     return username;
 }
@@ -151,6 +166,7 @@ QString NeuroAlg::imageCmp(cv::Mat& frame){
 cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     cv::Rect rec(0, 0, 0, 0);
     NResult result = N_OK;
+
     HNImage hImage = NULL;
     HNSubject hSubject = NULL;
     HNFace hFace = NULL;
@@ -238,39 +254,39 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 FINALLY:
     {
-        //    // free
-            result = NObjectSet(NULL, (HNObject *)&hSubject);
-            if (NFailed(result))
-            {
-                PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            }
-            result = NObjectSet(NULL, (HNObject *)&hFace);
-            if (NFailed(result))
-            {
-                PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            }
+    //    // free
+        result = NObjectSet(NULL, (HNObject *)&hSubject);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+        result = NObjectSet(NULL, (HNObject *)&hFace);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
 
-            result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
-            if (NFailed(result))
-            {
-                PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            }
-        //    result = NStringSet(NULL, (HNString *)&biometricStatus);
-        //    if (NFailed(result))
-        //    {
-        //        PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
-        //    }
-            result = NObjectSet(NULL, (HNObject *)&hLAtributes);
-            if (NFailed(result))
-            {
-                PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            }
+        result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+    //    result = NStringSet(NULL, (HNString *)&biometricStatus);
+    //    if (NFailed(result))
+    //    {
+    //        PrintErrorMsg(N_T("NStringSet() failed (result = %d)!"), result);
+    //    }
+        result = NObjectSet(NULL, (HNObject *)&hLAtributes);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
 
-            result = NObjectSet(NULL, (HNObject *)&hImage);
-            if (NFailed(result))
-            {
-                PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
-            }
+        result = NObjectSet(NULL, (HNObject *)&hImage);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
     }
 
 
@@ -282,46 +298,50 @@ FINALLY:
 bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     NResult result = N_OK;
 
-    // create biometric client
-    result = NBiometricClientCreate(&hBiometricClientForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        return false;
-    }
-
-    // create biometric task to enroll
-    HNBiometricTask hBiometricTaskForId = NULL;
-    result = NBiometricEngineCreateTask(hBiometricClientForId, nboEnroll, NULL, NULL, &hBiometricTaskForId);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
-        return false;
-    }
-
-    // read templates
     QDir* dir = new QDir(QString(lpPath));
     dir->setNameFilters(QStringList("*.dat"));
     dir->setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
-
     QFileInfoList files = dir->entryInfoList();
     HNSubject hTemplateSubject = NULL;
     QFileInfo f;
     HNString hSubjectId = NULL;
+
+    HNBiometricTask hBiometricTaskForId = NULL;
+    // create biometric client
+    result = NBiometricClientCreate(&hBiometricClientForId);
+    if (NFailed(result))
+    {
+        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+        goto FINALLY;
+    }
+
+    // create biometric task to enroll
+
+    result = NBiometricEngineCreateTask(hBiometricClientForId, nboEnroll, NULL, NULL, &hBiometricTaskForId);
+    if (NFailed(result))
+    {
+        PrintErrorMsg(N_T("NBiometricEngineCreateTask() failed (result = %d)!"), result);
+        goto FINALLY;
+    }
+
+    // read templates
+
+
+
     for(int i = 0; i < files.count(); i ++){
         f = files[i];
         // create subject for gallery templates
         result = NSubjectCreate(&hTemplateSubject);
         if (NFailed(result))
         {
-            result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
+            PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
             continue;
         }
         // create gallery subject id
         result = NStringFormat(&hSubjectId, N_T(f.baseName().toStdString().c_str()));
         if (NFailed(result))
         {
-            result = PrintErrorMsgWithLastError(N_T("NStringFormat() failed (result = %d)!"), result);
+            PrintErrorMsg(N_T("NStringFormat() failed (result = %d)!"), result);
             continue;
         }
         // set template for gallery subject
@@ -362,17 +382,15 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricEnginePerformTask() failed (result = %d)!"), result);
-        delete dir;
-        return false;
+        goto FINALLY;
     }
 
     // retrieve biometric task's status
     result = NBiometricTaskGetStatus(hBiometricTaskForId, &biometricStatusForId);
     if (NFailed(result))
     {
-        result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-        delete dir;
-        return false;
+        PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+        goto FINALLY;
     }
 
     if(biometricStatusForId == nbsOk){
@@ -382,22 +400,39 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
         result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.Threshold"), N_TYPE_OF(NInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, NTrue);
         if (NFailed(result))
         {
-            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-            delete dir;
-            return false;
+            PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            goto FINALLY;
         }
 
         // set matching speed
         result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
         if (NFailed(result))
         {
-            result = PrintErrorMsgWithLastError(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
-            delete dir;
-            return false;
+            PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            goto FINALLY;
         }
     }
+FINALLY:
+    {
+    //    // free
+        result = NObjectSet(NULL, (HNObject *)&hBiometricClientForId);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+        result = NObjectSet(NULL, (HNObject *)&hBiometricTaskForId);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+        }
+//        result = NObjectSet(NULL, (HNObject *)&biometricStatusForId);
+//        if (NFailed(result))
+//        {
+//            PrintErrorMsg(N_T("NObjectSet() failed (result = %d)!"), result);
+//        }
+       delete dir;
+    }
 
-    delete dir;
     return true;
 }
 
@@ -532,54 +567,62 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
 
     // create subject
     HNSubject hSubject = NULL;
+    HNFace hFace = NULL;
+    HNImage hImage = NULL;
+    NBiometricStatus biometricsStatus = nbsNone;
+    NTemplateSize templateSize = ntsLarge;
+    NBoolean parameter = NTrue;
+    NBool hasEx = NFalse;
+    HNBiometricClient hBiometricClient = NULL;
+
+    convertMat2Image(frame, &hImage);
+
     result = NSubjectCreate(&hSubject);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NSubjectCreate() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     // create face
-    HNFace hFace = NULL;
+
     result = NFaceCreate(&hFace);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NFaceCreate() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     // set data
     //frame = cv::imread("et.bmp", CV_LOAD_IMAGE_COLOR);
-    convertMat2Image(frame, &hImage);
+
     result = NFaceSetImage(hFace, hImage);
     if (NFailed(result))
     {
         result = PrintErrorMsgWithLastError(N_T("NFaceSetImage() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     // set the face for the subject
     result = NSubjectAddFace(hSubject, hFace, NULL);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NSubjectAddFace() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     // create biometric client
-    HNBiometricClient hBiometricClient = NULL;
+
     result = NBiometricClientCreate(&hBiometricClient);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
-    NTemplateSize templateSize = ntsLarge;
-    NBoolean parameter = NTrue;
-    NBool hasEx = NFalse;
+
 
    // set template size to large
     result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, NTrue);
     if (NFailed(result)) {
         result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     if (hasEx) {
@@ -587,17 +630,17 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
         result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.DetectAllFeaturePoints"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
         if(NFailed(result)){
             result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
-            return result;
+            goto FINALLY;
         }
     }
 
     // create template
-    NBiometricStatus biometricsStatus = nbsNone;
+
 
     result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricsStatus);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTemplate() failed (result = %d)!"), result);
-        return result;
+        goto FINALLY;
     }
 
     if(biometricsStatus == nbsOk){
@@ -607,8 +650,13 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
         result = NSubjectGetTemplateBuffer(hSubject, hBuffer);
         if(NFailed(result)){
             result = PrintErrorMsgWithLastError(N_T("NSubjectGetTemplateBuffer() failed (result = %d)!"), result);
-            return result;
+            goto FINALLY;
         }
     }
+FINALLY:
+    {
+
+    }
+
     return result;
 }
