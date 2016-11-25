@@ -18,7 +18,7 @@ DialogUserRegister_new::~DialogUserRegister_new()
 {
     delete ui;
 }
-void DialogUserRegister_new::updateFrame(QImage& qImage)
+void DialogUserRegister_new::updateFrame(QImage qImage)
 {
     if(!qImage.isNull()){
         QPixmap pm = QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio));

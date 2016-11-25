@@ -22,7 +22,7 @@ DialogUserAnalysis_New::~DialogUserAnalysis_New()
     delete d;
     delete ui;
 }
-void DialogUserAnalysis_New::updateFrame(QImage& qImage)
+void DialogUserAnalysis_New::updateFrame(QImage qImage)
 {
     if(!qImage.isNull()){
         QPixmap pm = QPixmap::fromImage(qImage.scaled(IMAGE_LABEL_WIDTH_3, IMAGE_LABEL_HEIGHT_3, Qt::KeepAspectRatio));

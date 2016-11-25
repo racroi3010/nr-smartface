@@ -49,6 +49,6 @@ protected:
     void run();
 
 signals:
-    void newFrame(QImage& image);
+    void newFrame(QImage image);
 };
 #endif // CAMERATHREAD_H

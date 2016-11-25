@@ -38,7 +38,7 @@ bool VideoProcessing::start()
         cameraThread->start();
         processingThread->start();
 
-        connect(cameraThread, SIGNAL(newFrame(QImage&)), mDialog, SLOT(updateFrame(QImage&)));
+        connect(cameraThread, SIGNAL(newFrame(QImage)), mDialog, SLOT(updateFrame(QImage)));
         //processingThread->setMode(ProcessingThread::MODE_FACE_DETECT);
         connect(processingThread, SIGNAL(newFace(QRect)), mDialog, SLOT(updateFace(QRect)));
         connect(processingThread, SIGNAL(newUser(QString)), mDialog, SLOT(updateUser(QString)));

@@ -31,7 +31,7 @@ public:
     explicit DialogUserAnalysis_New(QWidget *parent = 0);
     ~DialogUserAnalysis_New();
 protected slots:
-    void updateFrame(QImage& qImage);
+    void updateFrame(QImage qImage);
     void updateUser(QString user);
     void updateFace(QRect rect);
 private slots:
