@@ -1,5 +1,31 @@
 #include "neuroalg.h"
 
+NeuroAlg::NeuroAlg(){
+    // create subject
+    NResult result = NSubjectCreate(&hSubject);
+    if(NFailed(result)){
+        PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
+    }
+
+    // create face for the subject
+    result = NFaceCreate(&hFace);
+    if(NFailed(result)){
+        PrintErrorMsg(N_T("NFaceCreate() failed (result = %d)!"), result);
+    }
+}
+
+NeuroAlg::~NeuroAlg(){
+    NResult result = NObjectSet(NULL, (HNObject *)&hSubject);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+    result = NObjectSet(NULL, (HNObject *)&hFace);
+    if (NFailed(result))
+    {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
+    }
+}
 
 bool NeuroAlg::imageReg(QString userName, cv::Mat& frame){
     NResult result = N_OK;
@@ -146,20 +172,6 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     NResult result = N_OK;
 
 
-    // create subject
-    result = NSubjectCreate(&hSubject);
-    if(NFailed(result)){
-        PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
-        return rec;
-    }
-
-    // create face for the subject
-    result = NFaceCreate(&hFace);
-    if(NFailed(result)){
-        PrintErrorMsg(N_T("NFaceCreate() failed (result = %d)!"), result);
-        return rec;
-    }
-
     // set data
     convertMat2Image(frame, &hImage);
     result = NFaceSetImage(hFace, hImage);
@@ -225,18 +237,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     }
 
 //    // free
-    result = NObjectSet(NULL, (HNObject *)&hSubject);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
-    result = NObjectSet(NULL, (HNObject *)&hFace);
-    if (NFailed(result))
-    {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSet() failed (result = %d)!"), result);
-        return rec;
-    }
+
     result = NObjectSet(NULL, (HNObject *)&hBiometricClient);
     if (NFailed(result))
     {

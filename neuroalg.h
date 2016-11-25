@@ -16,6 +16,8 @@
 class NeuroAlg: public FaceAlgInterface
 {
 public:
+    NeuroAlg();
+    ~NeuroAlg();
     bool imageReg(QString userName, cv::Mat& frame);
     QString imageCmp(cv::Mat& frame);
     cv::Rect faceDetect(cv::Mat& frame);
