@@ -35,11 +35,11 @@ private:
     const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
     // face detection
     HNImage hImage = NULL;
-    HNSubject hSubject = NULL;
-    HNFace hFace = NULL;
-    HNBiometricClient hBiometricClient = NULL;
-    NBiometricStatus biometricStatus = nbsNone;
-    HNLAttributes hLAtributes = NULL;
+//    HNSubject hSubject = NULL;
+//    HNFace hFace = NULL;
+//    HNBiometricClient hBiometricClient = NULL;
+//    NBiometricStatus biometricStatus = nbsNone;
+//    HNLAttributes hLAtributes = NULL;
 
     // compare
     HNSubject hProbeSubject = NULL;
