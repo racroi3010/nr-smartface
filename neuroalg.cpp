@@ -149,14 +149,14 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     // create subject
     result = NSubjectCreate(&hSubject);
     if(NFailed(result)){
-        std::cout << "NSubjectCreate failed" << std::endl;
+        PrintErrorMsg(N_T("NSubjectCreate() failed (result = %d)!"), result);
         return rec;
     }
 
     // create face for the subject
     result = NFaceCreate(&hFace);
     if(NFailed(result)){
-        std::cout << "NFaceCreate failed" << std::endl;
+        PrintErrorMsg(N_T("NFaceCreate() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -164,7 +164,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     result = NFaceSetImage(hFace, convertMat2Image(frame));
     if (NFailed(result))
     {
-        std::cout << "NImageCreateFromDataEx failed" << std::endl;
+        PrintErrorMsg(N_T("NFaceSetImage() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -172,7 +172,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     // set the face for the subject
     result = NSubjectAddFace(hSubject, hFace, NULL);
     if(NFailed(result)){
-        std::cout << "NSubjectAddFace failed" << std::endl;
+        PrintErrorMsg(N_T("NSubjectAddFace() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -180,7 +180,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
 
     result = NBiometricClientCreate(&hBiometricClient);
     if(NFailed(result)){
-        std::cout << "NBiometricClientCreate failed" << std::endl;
+        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -189,7 +189,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricStatus);
     if (NFailed(result))
     {
-        std::cout << "NBiometricEngineCreateTemplate failed" << std::endl;
+        PrintErrorMsg(N_T("NBiometricEngineCreateTemplate() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -197,7 +197,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
     NInt facesDetected = 0;
     result = NSubjectGetFaceCount(hSubject, &facesDetected);
     if(NFailed(result)){
-        std::cout << "NSubjectGetFaceCount failed" << std::endl;
+        PrintErrorMsg(N_T("NSubjectGetFaceCount() failed (result = %d)!"), result);
         return rec;
     }
 
@@ -215,7 +215,7 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         NRect boundingRect;
         result = NLAttributesGetBoundingRect(hLAtributes, &boundingRect);
         if(NFailed(result)){
-            std::cout << "NLAttributesGetBoundingRect failed" << std::endl;
+            PrintErrorMsg(N_T("NLAttributesGetBoundingRect() failed (result = %d)!"), result);
             return rec;
         }
 
