@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     digitalclock.cpp \
     neuroalg.cpp \
     faceenginebuilder.cpp \
-    checklicensethread.cpp
+    checklicensethread.cpp \
+    neuroengineparams.cpp
 
 HEADERS  += mainwindow.h \
     Buffer.h \
@@ -68,7 +69,9 @@ HEADERS  += mainwindow.h \
     facealginterface.h \
     TutorialUtils.h \
     faceenginebuilder.h \
-    checklicensethread.h
+    checklicensethread.h \
+    engineparams.h \
+    neuroengineparams.h
 
 FORMS    += mainwindow.ui \
     dialoguserregister_new.ui \

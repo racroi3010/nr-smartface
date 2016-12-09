@@ -14,16 +14,7 @@ public:
         ENGINE_NEURO
     };
     FaceEngineBuilder();
-    static FaceAlgInterface * getEngine(ENGINE_TYPE type){
-        if(!faInstance){
-            if(type == ENGINE_NEURO){
-                faInstance = new NeuroAlg();
-            } else {
-                faInstance = new NeoFaceAlg();
-            }
-        }
-        return faInstance;
-    }
+    static FaceAlgInterface * getEngine(ENGINE_TYPE type);
 
 private:
     static FaceAlgInterface * faInstance;

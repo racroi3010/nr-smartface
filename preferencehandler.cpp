@@ -3,8 +3,21 @@ PreferenceHandler * PreferenceHandler::m_preHandler = 0;
 PreferenceHandler::PreferenceHandler()
 {
 #ifdef USE_NEURO
-    this->matching = 48;
+    EngineParams params = FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->getEngineParams();
+
+    NeuroEngineParams* neuroParams = (NeuroEngineParams*)(&params);
+    this->eyeDistance = neuroParams->getMinInterOcular();
+    this->confident = neuroParams->getConfThreshold();
+
+    this->mmatchingDetail = neuroParams->getMatchingWithDetail();
+    this->matching = neuroParams->getMatchingThreshold();
+
+
+    this->tag_eye_distance = "EYE_DISTANCE";
+    this->tag_confident = "CONFIDENT";
+    this->tag_matching_detail = "MATCHING_DETAIL";
     this->tag_matching = "MATCHING";
+
 #endif
 #ifdef USE_NEOFACE
     this->relValue = 0.4;
@@ -40,8 +53,25 @@ bool PreferenceHandler::saveXMLDom()
     QDomElement elem = doc.createElement(this->tag_startElement);
     docElem.appendChild(elem);
 #ifdef USE_NEURO
+
+    QDomElement elem_eyedistance = doc.createElement(this->tag_eye_distance);
+    elem_eyedistance.appendChild(doc.createTextNode(QString::number(this->eyeDistance)));
+
+    QDomElement elem_conf = doc.createElement(this->tag_confident);
+    elem_conf.appendChild(doc.createTextNode(QString::number(this->confident)));
+
+
+    QDomElement elem_matchingdetail= doc.createElement(this->tag_matching_detail);
+    if(this->mmatchingDetail){
+        elem_matchingdetail.appendChild(doc.createTextNode("TRUE"));
+    } else {
+        elem_matchingdetail.appendChild(doc.createTextNode("FALSE"));
+    }
+
+
     QDomElement elem_matching = doc.createElement(this->tag_matching);
     elem_matching.appendChild(doc.createTextNode(QString::number(this->matching)));
+
 #endif
 #ifdef USE_NEOFACE
     QDomElement elem_relvalue = doc.createElement(this->tag_relValue);
@@ -110,7 +140,23 @@ bool PreferenceHandler::readXMLDom()
             {
                 QDomElement eChildElem = eChilds.at(i).toElement();
 #ifdef USE_NEURO
-                if(eChildElem.tagName() == this->tag_matching)
+                if(eChildElem.tagName() == this->tag_eye_distance)
+                {
+                    this->eyeDistance  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_confident)
+                {
+                    this->confident  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_matching_detail)
+                {
+                    if(eChildElem.text() == "TRUE"){
+                        this->matching = true;
+                    } else {
+                        this->matching = false;
+                    }
+                }
+                else if(eChildElem.tagName() == this->tag_matching)
                 {
                     this->matching  = eChildElem.text().toInt();
                 }
@@ -139,14 +185,44 @@ bool PreferenceHandler::readXMLDom()
     }
     return true;
 }
-#ifdef USE_NEURO
-    void PreferenceHandler::setMatching(int v){
-        this->matching = v;
-    }
 
-    int PreferenceHandler::getMatching(){
-        return this->matching;
-    }
+int PreferenceHandler::getConfident() const
+{
+    return confident;
+}
+
+void PreferenceHandler::setConfident(int value)
+{
+    confident = value;
+}
+
+int PreferenceHandler::getEyeDistance() const
+{
+    return eyeDistance;
+}
+
+void PreferenceHandler::setEyeDistance(int value)
+{
+    eyeDistance = value;
+}
+
+bool PreferenceHandler::getMmatchingDetail() const
+{
+    return mmatchingDetail;
+}
+
+void PreferenceHandler::setMmatchingDetail(bool value)
+{
+    mmatchingDetail = value;
+}
+#ifdef USE_NEURO
+void PreferenceHandler::setMatching(int v){
+    this->matching = v;
+}
+
+int PreferenceHandler::getMatching(){
+    return this->matching;
+}
 
 #endif
 #ifdef USE_NEOFACE

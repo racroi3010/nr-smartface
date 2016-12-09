@@ -7,10 +7,11 @@
 #include <iostream>
 
 #include "Constants.h"
+#include "faceenginebuilder.h"
 class PreferenceHandler
 {
 public:
-    PreferenceHandler();
+
     static PreferenceHandler * getInstance();
 #ifdef USE_NEOFACE
     void setRelValue(float v);
@@ -26,14 +27,36 @@ public:
 #ifdef USE_NEURO
     void setMatching(int v);
     int getMatching();
+
+    int getConfident() const;
+    void setConfident(int value);
+
+    int getEyeDistance() const;
+    void setEyeDistance(int value);
+
+    bool getMmatchingDetail() const;
+    void setMmatchingDetail(bool value);
 #endif
     bool saveXMLDom();
     bool readXMLDom();
+
+
 private:
     static PreferenceHandler * m_preHandler;
+    PreferenceHandler();
 #ifdef USE_NEURO
+    int eyeDistance;
+    QString tag_eye_distance;
+
+    int confident;
+    QString tag_confident;
+
+    bool mmatchingDetail;
+    QString tag_matching_detail;
+
     int matching;
     QString tag_matching;
+
 #endif
 #ifdef USE_NEOFACE
     float relValue;

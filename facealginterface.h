@@ -7,6 +7,7 @@
 //QT
 #include <QDir>
 #include <qdebug.h>
+#include "engineparams.h"
 class FaceAlgInterface{
 public:
     virtual bool imageReg(QString userName, cv::Mat& frame) = 0;
@@ -19,7 +20,7 @@ public:
     virtual bool close() = 0;
 
     virtual bool checkLicense() = 0;
-
+    virtual EngineParams getEngineParams() = 0;
     bool saveImage(cv::Mat& frame, QString userName){
         cv::cvtColor(frame, frame, CV_BGR2RGB);
         QString path = QDir::currentPath() + "/history/" + userName + ".bmp";

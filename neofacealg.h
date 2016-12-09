@@ -84,6 +84,7 @@ public:
     bool close();
 
     bool checkLicense();
+    EngineParams getEngineParams();
 private:
     char* CT2A(LPCTSTR x);
 

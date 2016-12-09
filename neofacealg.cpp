@@ -1539,3 +1539,6 @@ bool NeoFaceAlg::close()
     qDebug() << "Terminate successfully.\n";
     return true;
 }
+EngineParams NeoFaceAlg::getEngineParams(){
+
+}

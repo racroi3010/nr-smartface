@@ -12,6 +12,7 @@
 #include "facealginterface.h"
 #include "TutorialUtils.h"
 #include "preferencehandler.h"
+#include "neuroengineparams.h"
 
 class NeuroAlg: public FaceAlgInterface
 {
@@ -27,6 +28,7 @@ public:
     bool close();
 
     bool checkLicense();
+    EngineParams getEngineParams();
 private:
 
     // license
