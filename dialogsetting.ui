@@ -94,12 +94,12 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
-       <width>246</width>
-       <height>598</height>
+       <y>-3</y>
+       <width>234</width>
+       <height>601</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="3,0">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="4,1">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
@@ -146,7 +146,14 @@
        </widget>
       </item>
       <item row="14" column="1">
-       <widget class="QSpinBox" name="sp_template_size"/>
+       <widget class="QSpinBox" name="sp_template_size">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="7" column="1">
        <widget class="QComboBox" name="cbox_liveness_mode"/>
@@ -159,13 +166,34 @@
        </widget>
       </item>
       <item row="13" column="1">
-       <widget class="QSpinBox" name="sp_gray_density"/>
+       <widget class="QSpinBox" name="sp_gray_density">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="10" column="1">
-       <widget class="QSpinBox" name="sp_token_quality"/>
+       <widget class="QSpinBox" name="sp_token_quality">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="17" column="1">
-       <widget class="QSpinBox" name="sp_max_result_count"/>
+       <widget class="QSpinBox" name="sp_max_result_count">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="11" column="0">
        <widget class="QLabel" name="label_8">
@@ -226,13 +254,34 @@
        </widget>
       </item>
       <item row="11" column="1">
-       <widget class="QSpinBox" name="sp_sharpness"/>
+       <widget class="QSpinBox" name="sp_sharpness">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="9" column="1">
-       <widget class="QSpinBox" name="sp_token_img_width"/>
+       <widget class="QSpinBox" name="sp_token_img_width">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="12" column="1">
-       <widget class="QSpinBox" name="sp_bg_uniform"/>
+       <widget class="QSpinBox" name="sp_bg_uniform">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="10" column="0">
        <widget class="QLabel" name="label_9">
@@ -249,10 +298,24 @@
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QSpinBox" name="sp_liveness_threshold"/>
+       <widget class="QSpinBox" name="sp_liveness_threshold">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="8" column="1">
-       <widget class="QSpinBox" name="sp_match_speed"/>
+       <widget class="QSpinBox" name="sp_match_speed">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_16">
@@ -262,7 +325,14 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="sp_max_yaw"/>
+       <widget class="QDoubleSpinBox" name="sp_max_yaw">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_14">
@@ -272,7 +342,14 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QSpinBox" name="sp_quality"/>
+       <widget class="QSpinBox" name="sp_quality">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="5" column="1">
        <widget class="QCheckBox" name="cb_liveness_check">
@@ -289,10 +366,24 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="sp_max_roll"/>
+       <widget class="QDoubleSpinBox" name="sp_max_roll">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="19" column="1">
-       <widget class="QSpinBox" name="sp_matching"/>
+       <widget class="QSpinBox" name="sp_matching">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="19" column="0">
        <widget class="QLabel" name="label_18">
@@ -302,7 +393,14 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="sp_confident"/>
+       <widget class="QSpinBox" name="sp_confident">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_19">
@@ -319,7 +417,20 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="sp_eye_distance"/>
+       <widget class="QSpinBox" name="sp_eye_distance">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
