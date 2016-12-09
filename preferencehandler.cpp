@@ -250,11 +250,66 @@ bool PreferenceHandler::saveXMLDom()
     elem_conf.appendChild(doc.createTextNode(QString::number(this->confident)));
 
 
+    QDomElement elem_maxroll = doc.createElement(this->tag_max_roll);
+    elem_maxroll.appendChild(doc.createTextNode(QString::number(this->maxRoll)));
+
+    QDomElement elem_maxyaw = doc.createElement(this->tag_max_yaw);
+    elem_maxyaw.appendChild(doc.createTextNode(QString::number(this->maxYaw)));
+
+    QDomElement elem_quality = doc.createElement(this->tag_quality_threshold);
+    elem_quality.appendChild(doc.createTextNode(QString::number(this->qualityThreshold)));
+
+    QDomElement elem_liveness_check = doc.createElement(this->tag_use_liveness_check);
+    elem_liveness_check.appendChild(doc.createTextNode(QString::number(this->useLivenessCheck)));
+
+    QDomElement elem_liveness_threshold = doc.createElement(this->tag_liveness_threshold);
+    elem_liveness_threshold.appendChild(doc.createTextNode(QString::number(this->livenessThreshold)));
+
+    QDomElement elem_liveness_mode = doc.createElement(this->tag_liveness_mode);
+    //elem_liveness_mode.appendChild(doc.createTextNode(QString::number(this->livenessMode)));
+
+    QDomElement elem_match_speed = doc.createElement(this->tag_match_speed);
+    //elem_match_speed.appendChild(doc.createTextNode(QString::number(this->matchSpeed)));
+
+    QDomElement elem_token_quality = doc.createElement(this->tag_token_quality_theshold);
+    elem_token_quality.appendChild(doc.createTextNode(QString::number(this->tokenQualityThreshold)));
+
+
+    QDomElement elem_sharpness_threshold = doc.createElement(this->tag_sharpness_threshold);
+    elem_sharpness_threshold.appendChild(doc.createTextNode(QString::number(this->sharpnessThreshold)));
+
+    QDomElement elem_bg_uniform_threshold = doc.createElement(this->tag_bg_uniform_threshold);
+    elem_bg_uniform_threshold.appendChild(doc.createTextNode(QString::number(this->bgUniformThreshold)));
+
+    QDomElement elem_gray_density = doc.createElement(this->tag_gray_density_threshold);
+    elem_gray_density.appendChild(doc.createTextNode(QString::number(this->grayDensityThreshold)));
+
+    QDomElement elem_template_size = doc.createElement(this->tag_template_size);
+    //elem_template_size.appendChild(doc.createTextNode(QString::number(this->templateSize)));
+
+    QDomElement elem_detect_all_feature = doc.createElement(this->tag_detect_all_feature);
+    if(this->detectAllFeature){
+        elem_detect_all_feature.appendChild(doc.createTextNode("TRUE"));
+    } else {
+        elem_detect_all_feature.appendChild(doc.createTextNode("FALSE"));
+    }
+
+
     QDomElement elem_matchingdetail= doc.createElement(this->tag_matching_detail);
     if(this->mmatchingDetail){
         elem_matchingdetail.appendChild(doc.createTextNode("TRUE"));
     } else {
         elem_matchingdetail.appendChild(doc.createTextNode("FALSE"));
+    }
+
+    QDomElement elem_matching_maxresult = doc.createElement(this->tag_match_max_result);
+    elem_matching_maxresult.appendChild(doc.createTextNode(QString::number(this->matchMaxResult)));
+
+    QDomElement elem_matching_first_result= doc.createElement(this->tag_match_first_result);
+    if(this->matchFirstResult){
+        elem_matching_first_result.appendChild(doc.createTextNode("TRUE"));
+    } else {
+        elem_matching_first_result.appendChild(doc.createTextNode("FALSE"));
     }
 
 
@@ -337,12 +392,93 @@ bool PreferenceHandler::readXMLDom()
                 {
                     this->confident  = eChildElem.text().toInt();
                 }
+                else if(eChildElem.tagName() == this->tag_max_roll)
+                {
+                    this->maxRoll  = eChildElem.text().toFloat();
+                }
+                else if(eChildElem.tagName() == this->tag_max_yaw)
+                {
+                    this->maxYaw  = eChildElem.text().toFloat();
+                }
+                else if(eChildElem.tagName() == this->tag_quality_threshold)
+                {
+                    this->qualityThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_use_liveness_check)
+                {
+                    if(eChildElem.text() == "TRUE"){
+                        this->useLivenessCheck = true;
+                    } else {
+                        this->useLivenessCheck = false;
+                    }
+                }
+                else if(eChildElem.tagName() == this->tag_liveness_threshold)
+                {
+                    this->livenessThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_liveness_mode)
+                {
+                    //this->livenessMode  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_match_speed)
+                {
+                    //this->matchSpeed  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_token_image_width)
+                {
+                    this->tokenImageWidth  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_token_quality_theshold)
+                {
+                    this->tokenQualityThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_sharpness_threshold)
+                {
+                    this->sharpnessThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_sharpness_threshold)
+                {
+                    this->sharpnessThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_bg_uniform_threshold)
+                {
+                    this->bgUniformThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_gray_density_threshold)
+                {
+                    this->grayDensityThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_template_size)
+                {
+                    //this->templateSize  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_detect_all_feature)
+                {
+                    if(eChildElem.text() == "TRUE"){
+                        this->detectAllFeature = true;
+                    } else {
+                        this->detectAllFeature = false;
+                    }
+                }
                 else if(eChildElem.tagName() == this->tag_matching_detail)
                 {
                     if(eChildElem.text() == "TRUE"){
-                        this->matching = true;
+                        this->mmatchingDetail = true;
                     } else {
-                        this->matching = false;
+                        this->mmatchingDetail = false;
+                    }
+                }
+                else if(eChildElem.tagName() == this->tag_match_max_result)
+                {
+                    this->matchMaxResult  = eChildElem.text().toInt();
+                }
+
+                else if(eChildElem.tagName() == this->tag_match_first_result)
+                {
+                    if(eChildElem.text() == "TRUE"){
+                        this->matchFirstResult = true;
+                    } else {
+                        this->matchFirstResult = false;
                     }
                 }
                 else if(eChildElem.tagName() == this->tag_matching)

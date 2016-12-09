@@ -12,18 +12,27 @@ DialogSetting::DialogSetting(QWidget *parent) :
 
     PreferenceHandler *preHandler = PreferenceHandler::getInstance();
 
-//    ui->spb_eyemax->setValue(preHandler->getEyeMax());
-//    ui->spb_eyemin->setValue(preHandler->getEyeMin());
-//    ui->spb_maxRelValue->setValue(preHandler->getMaxRelValue());
-//    ui->spb_relValue->setValue(preHandler->getRelValue());
 
-//    ui->spb_eyedistance->setValue(preHandler->getEyeDistance());
-//    ui->spb_confidence->setValue(preHandler->getConfident());
-//    ui->cb_matchingdetail->setChecked(preHandler->getMmatchingDetail());
-
-//    ui->spb_matching->setValue(preHandler->getMatching());
-
-
+    ui->sp_eye_distance->setValue(preHandler->getEyeDistance());
+    ui->sp_confident->setValue(preHandler->getConfident());
+    ui->sp_max_roll->setValue(preHandler->getMaxRoll());
+    ui->sp_max_yaw->setValue(preHandler->getMaxYaw());
+    ui->sp_quality->setValue(preHandler->getQualityThreshold());
+    ui->cb_liveness_check->setChecked(preHandler->getUseLivenessCheck());
+    ui->sp_liveness_threshold->setValue(preHandler->getLivenessThreshold());
+    //ui->cbox_liveness_mode->setItemText(preHandler->getLivenessMode());
+    //ui->sp_match_speed->setValue(preHandler->getMatchSpeed());
+    ui->sp_token_img_width->setValue(preHandler->getTokenImageWidth());
+    ui->sp_token_quality->setValue(preHandler->getTokenQualityThreshold());
+    ui->sp_sharpness->setValue(preHandler->getSharpnessThreshold());
+    ui->sp_bg_uniform->setValue(preHandler->getBgUniformThreshold());
+    ui->sp_gray_density->setValue(preHandler->getGrayDensityThreshold());
+    //ui->sp_template_size->setValue(preHandler->getTemplateSize());
+    ui->cb_detect_all_feature->setChecked(preHandler->getDetectAllFeature());
+    ui->cb_matching_detail->setChecked(preHandler->getMmatchingDetail());
+    ui->sp_max_result_count->setValue(preHandler->getMatchMaxResult());
+    ui->cb_firstresult->setChecked(preHandler->getMatchFirstResult());
+    ui->sp_matching->setValue(preHandler->getMatching());
 }
 
 DialogSetting::~DialogSetting()
