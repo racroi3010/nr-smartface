@@ -17,11 +17,11 @@ DialogSetting::DialogSetting(QWidget *parent) :
 //    ui->spb_maxRelValue->setValue(preHandler->getMaxRelValue());
 //    ui->spb_relValue->setValue(preHandler->getRelValue());
 
-    ui->spb_eyedistance->setValue(preHandler->getEyeDistance());
-    ui->spb_confidence->setValue(preHandler->getConfident());
-    ui->cb_matchingdetail->setChecked(preHandler->getMmatchingDetail());
+//    ui->spb_eyedistance->setValue(preHandler->getEyeDistance());
+//    ui->spb_confidence->setValue(preHandler->getConfident());
+//    ui->cb_matchingdetail->setChecked(preHandler->getMmatchingDetail());
 
-    ui->spb_matching->setValue(preHandler->getMatching());
+//    ui->spb_matching->setValue(preHandler->getMatching());
 
 
 }
@@ -51,17 +51,17 @@ void DialogSetting::on_btnSave_clicked()
 #endif
 
 #ifdef USE_NEURO
-    int eyeDistance = ui->spb_eyedistance->value();
-    PreferenceHandler::getInstance()->setEyeDistance(eyeDistance);
+//    int eyeDistance = ui->spb_eyedistance->value();
+//    PreferenceHandler::getInstance()->setEyeDistance(eyeDistance);
 
-    int conf = ui->spb_confidence->value();
-    PreferenceHandler::getInstance()->setConfident(conf);
+//    int conf = ui->spb_confidence->value();
+//    PreferenceHandler::getInstance()->setConfident(conf);
 
-    bool matchingDetail = ui->cb_matchingdetail->isChecked();
-    PreferenceHandler::getInstance()->setMmatchingDetail(matchingDetail);
+//    bool matchingDetail = ui->cb_matchingdetail->isChecked();
+//    PreferenceHandler::getInstance()->setMmatchingDetail(matchingDetail);
 
-    int matching = ui->spb_matching->value();
-    PreferenceHandler::getInstance()->setMatching(matching);
+//    int matching = ui->spb_matching->value();
+//    PreferenceHandler::getInstance()->setMatching(matching);
 #endif
 
 
