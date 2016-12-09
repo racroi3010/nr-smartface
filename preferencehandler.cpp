@@ -316,6 +316,30 @@ bool PreferenceHandler::saveXMLDom()
     QDomElement elem_matching = doc.createElement(this->tag_matching);
     elem_matching.appendChild(doc.createTextNode(QString::number(this->matching)));
 
+    elem.appendChild(elem_eyedistance);
+    elem.appendChild(elem_conf);
+    elem.appendChild(elem_maxroll);
+    elem.appendChild(elem_maxyaw);
+
+    elem.appendChild(elem_quality);
+    elem.appendChild(elem_liveness_check);
+    elem.appendChild(elem_liveness_threshold);
+    elem.appendChild(elem_liveness_mode);
+
+    elem.appendChild(elem_match_speed);
+    elem.appendChild(elem_token_quality);
+    elem.appendChild(elem_sharpness_threshold);
+    elem.appendChild(elem_bg_uniform_threshold);
+
+    elem.appendChild(elem_gray_density);
+    elem.appendChild(elem_template_size);
+    elem.appendChild(elem_detect_all_feature);
+    elem.appendChild(elem_matchingdetail);
+
+    elem.appendChild(elem_matching_maxresult);
+    elem.appendChild(elem_matching_first_result);
+    elem.appendChild(elem_matching);
+
 #endif
 #ifdef USE_NEOFACE
     QDomElement elem_relvalue = doc.createElement(this->tag_relValue);
