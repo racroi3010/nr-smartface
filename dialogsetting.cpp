@@ -71,6 +71,52 @@ void DialogSetting::on_btnSave_clicked()
 
 //    int matching = ui->spb_matching->value();
 //    PreferenceHandler::getInstance()->setMatching(matching);
+
+    int eyeDistance = ui->sp_eye_distance->value();
+    PreferenceHandler::getInstance()->setEyeDistance(eyeDistance);
+
+    int confident = ui->sp_confident->value();
+    PreferenceHandler::getInstance()->setConfident(confident);
+
+    float maxRoll = ui->sp_max_roll->value();
+    PreferenceHandler::getInstance()->setMaxRoll(maxRoll);
+
+    float maxYaw = ui->sp_max_yaw->value();
+    PreferenceHandler::getInstance()->setMaxYaw(maxYaw);
+
+    int qualityThreshold = ui->sp_quality->value();
+    PreferenceHandler::getInstance()->setQualityThreshold(qualityThreshold);
+
+    bool useLivenessCheck = ui->cb_liveness_check->isChecked();
+    PreferenceHandler::getInstance()->setUseLivenessCheck(useLivenessCheck);
+    int livenessThreshold = ui->sp_liveness_threshold->value();
+    PreferenceHandler::getInstance()->setLivenessThreshold(livenessThreshold);
+//    NLivenessMode livenessMode = ui->;
+//    PreferenceHandler::getInstance()->setLivenessMode(livenessMode);
+//    NMatchingSpeed matchSpeed;
+//    PreferenceHandler::getInstance()->setMatchSpeed(matchSpeed);
+    int tokenImageWidth = ui->sp_token_img_width->value();
+    PreferenceHandler::getInstance()->setTokenImageWidth(tokenImageWidth);
+    int tokenQualityThreshold = ui->sp_token_quality->value();
+    PreferenceHandler::getInstance()->setTokenQualityThreshold(tokenQualityThreshold);
+    int sharpnessThreshold = ui->sp_sharpness->value();
+    PreferenceHandler::getInstance()->setSharpnessThreshold(sharpnessThreshold);
+    int bgUniformThreshold = ui->sp_bg_uniform->value();
+    PreferenceHandler::getInstance()->setBgUniformThreshold(bgUniformThreshold);
+    int grayDensityThreshold = ui->sp_gray_density->value();
+    PreferenceHandler::getInstance()->setGrayDensityThreshold(grayDensityThreshold);
+//    NTemplateSize templateSize = ui->;
+//    PreferenceHandler::getInstance()->setTemplateSize(templateSize);
+    bool detectAllFeature = ui->cb_detect_all_feature->isChecked();
+    PreferenceHandler::getInstance()->setDetectAllFeature(detectAllFeature);
+    bool mmatchingDetail = ui->cb_matching_detail->isChecked();
+    PreferenceHandler::getInstance()->setMmatchingDetail(mmatchingDetail);
+    int matchMaxResult = ui->sp_max_result_count->value();
+    PreferenceHandler::getInstance()->setMatchMaxResult(matchMaxResult);
+    bool matchFirstResult = ui->cb_firstresult->isChecked();
+    PreferenceHandler::getInstance()->setMatchFirstResult(matchFirstResult);
+    int matching = ui->sp_matching->value();
+    PreferenceHandler::getInstance()->setMatching(matching);
 #endif
 
 
