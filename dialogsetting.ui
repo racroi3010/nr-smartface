@@ -65,7 +65,7 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>251</width>
+     <width>211</width>
      <height>191</height>
     </rect>
    </property>
@@ -81,93 +81,100 @@
       <x>0</x>
       <y>0</y>
       <width>300</width>
-      <height>300</height>
+      <height>600</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>300</width>
-      <height>300</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>300</width>
-      <height>300</height>
+      <height>600</height>
      </size>
     </property>
     <widget class="QWidget" name="gridLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>212</width>
-       <height>321</height>
+       <x>0</x>
+       <y>0</y>
+       <width>246</width>
+       <height>598</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="3,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
-      <item row="9" column="0">
+      <item row="18" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;First Result&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QCheckBox" name="checkBox_3">
+      <item row="15" column="1">
+       <widget class="QCheckBox" name="cb_detect_all_feature">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Liveness Mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Detect All Feature&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="16" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Matching Detail&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="9" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Token Image Width&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
+      <item row="14" column="1">
+       <widget class="QSpinBox" name="sp_template_size"/>
+      </item>
       <item row="7" column="1">
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QComboBox" name="cbox_liveness_mode"/>
+      </item>
+      <item row="16" column="1">
+       <widget class="QCheckBox" name="cb_matching_detail">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="spinBox_2"/>
+      <item row="13" column="1">
+       <widget class="QSpinBox" name="sp_gray_density"/>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_5"/>
+      <item row="10" column="1">
+       <widget class="QSpinBox" name="sp_token_quality"/>
       </item>
-      <item row="8" column="1">
-       <widget class="QSpinBox" name="spinBox"/>
+      <item row="17" column="1">
+       <widget class="QSpinBox" name="sp_max_result_count"/>
       </item>
-      <item row="2" column="0">
+      <item row="11" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Sharpness&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="13" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Gray Density
@@ -175,28 +182,42 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="1">
-       <widget class="QCheckBox" name="checkBox">
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Match Speed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <widget class="QCheckBox" name="cb_firstresult">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Quality&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Max Result Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="12" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Background Uniform&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="14" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Template Size
@@ -204,26 +225,110 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBox_4"/>
+      <item row="11" column="1">
+       <widget class="QSpinBox" name="sp_sharpness"/>
       </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="spinBox_6"/>
+      <item row="9" column="1">
+       <widget class="QSpinBox" name="sp_token_img_width"/>
       </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="spinBox_3"/>
+      <item row="12" column="1">
+       <widget class="QSpinBox" name="sp_bg_uniform"/>
       </item>
-      <item row="1" column="0">
+      <item row="10" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Token Quality&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Liveness Threshold&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="sp_liveness_threshold"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="sp_match_speed"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;MaxYaw&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="sp_max_yaw"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Liveness Check&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="sp_quality"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="cb_liveness_check">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;MaxRoll&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="sp_max_roll"/>
+      </item>
+      <item row="19" column="1">
+       <widget class="QSpinBox" name="sp_matching"/>
+      </item>
+      <item row="19" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Matching&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="sp_confident"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Confident&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Eye Distance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="sp_eye_distance"/>
+      </item>
      </layout>
     </widget>
    </widget>
   </widget>
+  <zorder>btnMenu</zorder>
+  <zorder>btnSave</zorder>
+  <zorder>scrollArea</zorder>
+  <zorder>label_18</zorder>
  </widget>
  <resources/>
  <connections/>
