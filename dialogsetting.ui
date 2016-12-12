@@ -79,15 +79,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-151</y>
+      <y>0</y>
       <width>300</width>
-      <height>600</height>
+      <height>620</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>300</width>
-      <height>600</height>
+      <height>620</height>
      </size>
     </property>
     <widget class="QWidget" name="gridLayoutWidget">
@@ -441,7 +441,7 @@ Check&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       <item row="0" column="0">
        <widget class="QLabel" name="label_20">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Eye Distance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;MinEye Distance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
