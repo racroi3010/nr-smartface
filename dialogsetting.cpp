@@ -10,6 +10,29 @@ DialogSetting::DialogSetting(QWidget *parent) :
     this->setFixedSize(QSize(WINDOW_WIDTH, WINDOW_HEIGHT));
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
 
+    // initialize data for combobox
+    QStringList listTemplateSize;
+    listTemplateSize.append("Compact");
+    listTemplateSize.append("Small");
+    listTemplateSize.append("Medium");
+    listTemplateSize.append("Large");
+    this->ui->cbox_template_size->addItems(listTemplateSize);
+
+    QStringList listMatchSpeed;
+    listMatchSpeed.append("Low");
+    listMatchSpeed.append("Medium");
+    listMatchSpeed.append("High");
+    this->ui->cbox_match_speed->addItems(listMatchSpeed);
+
+
+    QStringList listLiveMode;
+    listLiveMode.append("None");
+    listLiveMode.append("Passive");
+    listLiveMode.append("Active");
+    listLiveMode.append("PassiveAndActive");
+    this->ui->cbox_liveness_mode->addItems(listLiveMode);
+
+
     PreferenceHandler *preHandler = PreferenceHandler::getInstance();
 
 
@@ -20,14 +43,57 @@ DialogSetting::DialogSetting(QWidget *parent) :
     ui->sp_quality->setValue(preHandler->getQualityThreshold());
     ui->cb_liveness_check->setChecked(preHandler->getUseLivenessCheck());
     ui->sp_liveness_threshold->setValue(preHandler->getLivenessThreshold());
-    //ui->cbox_liveness_mode->setItemText(preHandler->getLivenessMode());
-    //ui->sp_match_speed->setValue(preHandler->getMatchSpeed());
+
+    switch (preHandler->getLivenessMode()) {
+    case nlmNone:
+        this->ui->cbox_liveness_mode->setCurrentIndex(0);
+        break;
+    case nlmPassive:
+        this->ui->cbox_liveness_mode->setCurrentIndex(1);
+        break;
+    case nlmActive:
+        this->ui->cbox_liveness_mode->setCurrentIndex(2);
+        break;
+    case nlmPassiveAndActive:
+        this->ui->cbox_liveness_mode->setCurrentIndex(3);
+        break;
+    }
+
+    switch (preHandler->getMatchSpeed()) {
+    case nmsLow:
+        this->ui->cbox_match_speed->setCurrentIndex(0);
+        break;
+    case nmsMedium:
+        this->ui->cbox_match_speed->setCurrentIndex(1);
+        break;
+    case nmsHigh:
+        this->ui->cbox_match_speed->setCurrentIndex(2);
+        break;
+    }
+
     ui->sp_token_img_width->setValue(preHandler->getTokenImageWidth());
     ui->sp_token_quality->setValue(preHandler->getTokenQualityThreshold());
     ui->sp_sharpness->setValue(preHandler->getSharpnessThreshold());
     ui->sp_bg_uniform->setValue(preHandler->getBgUniformThreshold());
     ui->sp_gray_density->setValue(preHandler->getGrayDensityThreshold());
-    //ui->sp_template_size->setValue(preHandler->getTemplateSize());
+
+    switch (preHandler->getTemplateSize()) {
+    case ntsCompact:
+        this->ui->cbox_template_size->setCurrentIndex(0);
+        break;
+    case ntsSmall:
+        this->ui->cbox_template_size->setCurrentIndex(1);
+        break;
+    case ntsMedium:
+        this->ui->cbox_template_size->setCurrentIndex(2);
+        break;
+    case ntsLarge:
+        this->ui->cbox_template_size->setCurrentIndex(3);
+        break;
+
+
+    }
+
     ui->cb_detect_all_feature->setChecked(preHandler->getDetectAllFeature());
     ui->cb_matching_detail->setChecked(preHandler->getMmatchingDetail());
     ui->sp_max_result_count->setValue(preHandler->getMatchMaxResult());
@@ -60,18 +126,6 @@ void DialogSetting::on_btnSave_clicked()
 #endif
 
 #ifdef USE_NEURO
-//    int eyeDistance = ui->spb_eyedistance->value();
-//    PreferenceHandler::getInstance()->setEyeDistance(eyeDistance);
-
-//    int conf = ui->spb_confidence->value();
-//    PreferenceHandler::getInstance()->setConfident(conf);
-
-//    bool matchingDetail = ui->cb_matchingdetail->isChecked();
-//    PreferenceHandler::getInstance()->setMmatchingDetail(matchingDetail);
-
-//    int matching = ui->spb_matching->value();
-//    PreferenceHandler::getInstance()->setMatching(matching);
-
     int eyeDistance = ui->sp_eye_distance->value();
     PreferenceHandler::getInstance()->setEyeDistance(eyeDistance);
 
@@ -91,10 +145,35 @@ void DialogSetting::on_btnSave_clicked()
     PreferenceHandler::getInstance()->setUseLivenessCheck(useLivenessCheck);
     int livenessThreshold = ui->sp_liveness_threshold->value();
     PreferenceHandler::getInstance()->setLivenessThreshold(livenessThreshold);
-//    NLivenessMode livenessMode = ui->;
-//    PreferenceHandler::getInstance()->setLivenessMode(livenessMode);
-//    NMatchingSpeed matchSpeed;
-//    PreferenceHandler::getInstance()->setMatchSpeed(matchSpeed);
+    int livenessModeIndex = ui->cbox_liveness_mode->currentIndex();
+    switch (livenessModeIndex) {
+    case 0:
+        PreferenceHandler::getInstance()->setLivenessMode(nlmNone);
+        break;
+    case 1:
+        PreferenceHandler::getInstance()->setLivenessMode(nlmPassive);
+        break;
+    case 2:
+        PreferenceHandler::getInstance()->setLivenessMode(nlmActive);
+        break;
+    case 3:
+        PreferenceHandler::getInstance()->setLivenessMode(nlmPassiveAndActive);
+        break;
+    }
+
+    int matchSpeedIdx = ui->cbox_match_speed->currentIndex();
+    switch (matchSpeedIdx) {
+    case 0:
+        PreferenceHandler::getInstance()->setMatchSpeed(nmsLow);
+        break;
+    case 1:
+        PreferenceHandler::getInstance()->setMatchSpeed(nmsMedium);
+        break;
+    case 2:
+        PreferenceHandler::getInstance()->setMatchSpeed(nmsHigh);
+        break;
+    }
+
     int tokenImageWidth = ui->sp_token_img_width->value();
     PreferenceHandler::getInstance()->setTokenImageWidth(tokenImageWidth);
     int tokenQualityThreshold = ui->sp_token_quality->value();
@@ -105,8 +184,23 @@ void DialogSetting::on_btnSave_clicked()
     PreferenceHandler::getInstance()->setBgUniformThreshold(bgUniformThreshold);
     int grayDensityThreshold = ui->sp_gray_density->value();
     PreferenceHandler::getInstance()->setGrayDensityThreshold(grayDensityThreshold);
-//    NTemplateSize templateSize = ui->;
-//    PreferenceHandler::getInstance()->setTemplateSize(templateSize);
+
+    int templateSizeIdx = ui->cbox_template_size->currentIndex();
+    switch (templateSizeIdx) {
+    case 0:
+        PreferenceHandler::getInstance()->setTemplateSize(ntsCompact);
+        break;
+    case 1:
+        PreferenceHandler::getInstance()->setTemplateSize(ntsSmall);
+        break;
+    case 2:
+        PreferenceHandler::getInstance()->setTemplateSize(ntsMedium);
+        break;
+    case 3:
+        PreferenceHandler::getInstance()->setTemplateSize(ntsLarge);
+        break;
+    }
+
     bool detectAllFeature = ui->cb_detect_all_feature->isChecked();
     PreferenceHandler::getInstance()->setDetectAllFeature(detectAllFeature);
     bool mmatchingDetail = ui->cb_matching_detail->isChecked();

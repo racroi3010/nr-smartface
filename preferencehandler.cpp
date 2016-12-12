@@ -266,10 +266,10 @@ bool PreferenceHandler::saveXMLDom()
     elem_liveness_threshold.appendChild(doc.createTextNode(QString::number(this->livenessThreshold)));
 
     QDomElement elem_liveness_mode = doc.createElement(this->tag_liveness_mode);
-    //elem_liveness_mode.appendChild(doc.createTextNode(QString::number(this->livenessMode)));
+    elem_liveness_mode.appendChild(doc.createTextNode(QString::number(this->livenessMode)));
 
     QDomElement elem_match_speed = doc.createElement(this->tag_match_speed);
-    //elem_match_speed.appendChild(doc.createTextNode(QString::number(this->matchSpeed)));
+    elem_match_speed.appendChild(doc.createTextNode(QString::number(this->matchSpeed)));
 
     QDomElement elem_token_quality = doc.createElement(this->tag_token_quality_theshold);
     elem_token_quality.appendChild(doc.createTextNode(QString::number(this->tokenQualityThreshold)));
@@ -285,7 +285,7 @@ bool PreferenceHandler::saveXMLDom()
     elem_gray_density.appendChild(doc.createTextNode(QString::number(this->grayDensityThreshold)));
 
     QDomElement elem_template_size = doc.createElement(this->tag_template_size);
-    //elem_template_size.appendChild(doc.createTextNode(QString::number(this->templateSize)));
+    elem_template_size.appendChild(doc.createTextNode(QString::number(this->templateSize)));
 
     QDomElement elem_detect_all_feature = doc.createElement(this->tag_detect_all_feature);
     if(this->detectAllFeature){
@@ -442,11 +442,11 @@ bool PreferenceHandler::readXMLDom()
                 }
                 else if(eChildElem.tagName() == this->tag_liveness_mode)
                 {
-                    //this->livenessMode  = eChildElem.text().toInt();
+                    this->livenessMode  = (NLivenessMode)eChildElem.text().toInt();
                 }
                 else if(eChildElem.tagName() == this->tag_match_speed)
                 {
-                    //this->matchSpeed  = eChildElem.text().toInt();
+                    this->matchSpeed  = (NMatchingSpeed)eChildElem.text().toInt();
                 }
                 else if(eChildElem.tagName() == this->tag_token_image_width)
                 {
@@ -474,7 +474,7 @@ bool PreferenceHandler::readXMLDom()
                 }
                 else if(eChildElem.tagName() == this->tag_template_size)
                 {
-                    //this->templateSize  = eChildElem.text().toInt();
+                    this->templateSize  = (NTemplateSize)eChildElem.text().toInt();
                 }
                 else if(eChildElem.tagName() == this->tag_detect_all_feature)
                 {
