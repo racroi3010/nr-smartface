@@ -5,7 +5,12 @@ NeuroAlg::NeuroAlg(){
     if(NFailed(result)){
         PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
     }
-
+    // create biometric client
+    result = NBiometricClientCreate(&hBiometricClientForId);
+    if (NFailed(result))
+    {
+        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+    }
 }
 
 NeuroAlg::~NeuroAlg(){
@@ -324,14 +329,7 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 
     HNBiometricTask hBiometricTaskForId = NULL;
     bool rs = true;
-    // create biometric client
-    result = NBiometricClientCreate(&hBiometricClientForId);
-    if (NFailed(result))
-    {
-        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        rs = false;
-        goto FINALLY;
-    }
+
 
     // create biometric task to enroll
 
