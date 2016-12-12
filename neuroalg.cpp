@@ -557,7 +557,7 @@ EngineParams NeuroAlg::getEngineParams(){
     NBoolean matchingWithDetail; // Matching.WithDetails
     NInt32 matchingMaxResult; // Matching.MaximalResultCount
     NBoolean matchingFirstResult; // Matching.FirstResultOnly
-    NBoolean matchingThreshold; // Matching.Threshold
+    NUInt32 matchingThreshold; // Matching.Threshold
 
     // create biometric client
     HNBiometricClient hBiometricClient;
@@ -709,7 +709,7 @@ EngineParams NeuroAlg::getEngineParams(){
         params.setMatchingFirstResult(matchingFirstResult);
     }
 
-    result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.Threshold"), N_TYPE_OF(NBoolean), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, &hasValue);
+    result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.Threshold"), N_TYPE_OF(NUInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, &hasValue);
     if (NFailed(result)) {
         result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){

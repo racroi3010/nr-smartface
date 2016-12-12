@@ -195,6 +195,16 @@ void NeuroEngineParams::setMatchingMaxResult(const NInt32 &value)
     matchingMaxResult = value;
 }
 
+NInt32 NeuroEngineParams::getMatchingThreshold() const
+{
+    return matchingThreshold;
+}
+
+void NeuroEngineParams::setMatchingThreshold(const NInt32 &value)
+{
+    matchingThreshold = value;
+}
+
 NBoolean NeuroEngineParams::getMatchingFirstResult() const
 {
     return matchingFirstResult;
@@ -205,13 +215,6 @@ void NeuroEngineParams::setMatchingFirstResult(const NBoolean &value)
     matchingFirstResult = value;
 }
 
-NBoolean NeuroEngineParams::getMatchingThreshold() const
-{
-    return matchingThreshold;
-}
 
-void NeuroEngineParams::setMatchingThreshold(const NBoolean &value)
-{
-    matchingThreshold = value;
-}
+
 

@@ -68,11 +68,13 @@ public:
     NInt32 getMatchingMaxResult() const;
     void setMatchingMaxResult(const NInt32 &value);
 
+
+
+    NInt32 getMatchingThreshold() const;
+    void setMatchingThreshold(const NInt32 &value);
+
     NBoolean getMatchingFirstResult() const;
     void setMatchingFirstResult(const NBoolean &value);
-
-    NBoolean getMatchingThreshold() const;
-    void setMatchingThreshold(const NBoolean &value);
 
 private:
 
@@ -106,7 +108,7 @@ private:
     NBoolean matchingWithDetail; // Matching.WithDetails
     NInt32 matchingMaxResult; // Matching.MaximalResultCount
     NBoolean matchingFirstResult; // Matching.FirstResultOnly
-    NBoolean matchingThreshold; // Matching.Threshold
+    NInt32 matchingThreshold; // Matching.Threshold
 };
 
 #endif // NEUROENGINEPARAMS_H
