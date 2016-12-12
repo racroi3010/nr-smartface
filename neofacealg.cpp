@@ -1542,3 +1542,6 @@ bool NeoFaceAlg::close()
 EngineParams NeoFaceAlg::getEngineParams(){
 
 }
+bool NeoFaceAlg::prepare(){
+
+}

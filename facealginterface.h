@@ -14,7 +14,7 @@ public:
     virtual QString imageCmp(cv::Mat& frame) = 0;
     virtual cv::Rect faceDetect(cv::Mat& frame) = 0;
     virtual bool LoadFeatures(const char* lpPath, int iAlg) = 0;
-
+    virtual bool prepare();
 
 
     virtual bool close() = 0;

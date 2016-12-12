@@ -13,6 +13,7 @@ PreferenceHandler::PreferenceHandler()
     this->qualityThreshold = neuroParams->getQualityThreshold();
     this->useLivenessCheck = neuroParams->getUseLivenessCheck();
     this->livenessThreshold = neuroParams->getLivenessThresHold();
+    this->livenessBlinkTimeout = neuroParams->getLivenessBlinkTimeOut();
     this->livenessMode = neuroParams->getLivenessMode();
     this->matchSpeed = neuroParams->getMatchSpeed();
     this->tokenImageWidth = neuroParams->getTokenImageWidth();
@@ -34,6 +35,7 @@ PreferenceHandler::PreferenceHandler()
     this->tag_quality_threshold = "QUALITY_THRESHOLD";
     this->tag_use_liveness_check = "LIVENESS_CHECK";
     this->tag_liveness_threshold = "LIVENESS_THRESHOLD";
+    this->tag_liveness_blink = "LIVENESS_BLINK";
     this->tag_liveness_mode = "LIVENESS_MODE";
     this->tag_match_speed = "MATCH_SPEED";
     this->tag_token_image_width = "TOKEN_IMAGE_WIDTH";
@@ -62,6 +64,16 @@ PreferenceHandler::PreferenceHandler()
     tag_startRootElement = "SETTINGS";
     tag_startElement = "SET";
 
+}
+
+int PreferenceHandler::getLivenessBlinkTimeout() const
+{
+    return livenessBlinkTimeout;
+}
+
+void PreferenceHandler::setLivenessBlinkTimeout(int value)
+{
+    livenessBlinkTimeout = value;
 }
 
 bool PreferenceHandler::getMatchFirstResult() const
@@ -265,6 +277,9 @@ bool PreferenceHandler::saveXMLDom()
     QDomElement elem_liveness_threshold = doc.createElement(this->tag_liveness_threshold);
     elem_liveness_threshold.appendChild(doc.createTextNode(QString::number(this->livenessThreshold)));
 
+    QDomElement elem_liveness_blink = doc.createElement(this->tag_liveness_blink);
+    elem_liveness_blink.appendChild(doc.createTextNode(QString::number(this->livenessBlinkTimeout)));
+
     QDomElement elem_liveness_mode = doc.createElement(this->tag_liveness_mode);
     elem_liveness_mode.appendChild(doc.createTextNode(QString::number(this->livenessMode)));
 
@@ -324,6 +339,7 @@ bool PreferenceHandler::saveXMLDom()
     elem.appendChild(elem_quality);
     elem.appendChild(elem_liveness_check);
     elem.appendChild(elem_liveness_threshold);
+    elem.appendChild(elem_liveness_blink);
     elem.appendChild(elem_liveness_mode);
 
     elem.appendChild(elem_match_speed);
@@ -439,6 +455,10 @@ bool PreferenceHandler::readXMLDom()
                 else if(eChildElem.tagName() == this->tag_liveness_threshold)
                 {
                     this->livenessThreshold  = eChildElem.text().toInt();
+                }
+                else if(eChildElem.tagName() == this->tag_liveness_blink)
+                {
+                    this->livenessBlinkTimeout  = eChildElem.text().toInt();
                 }
                 else if(eChildElem.tagName() == this->tag_liveness_mode)
                 {

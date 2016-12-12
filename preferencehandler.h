@@ -92,6 +92,9 @@ public:
     bool getMatchFirstResult() const;
     void setMatchFirstResult(bool value);
 
+    int getLivenessBlinkTimeout() const;
+    void setLivenessBlinkTimeout(int value);
+
 private:
     static PreferenceHandler * m_preHandler;
     PreferenceHandler();
@@ -116,6 +119,9 @@ private:
 
     int livenessThreshold;
     QString tag_liveness_threshold;
+
+    int livenessBlinkTimeout;
+    QString tag_liveness_blink;
 
     NLivenessMode livenessMode;
     QString tag_liveness_mode;

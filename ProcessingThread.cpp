@@ -18,6 +18,7 @@ ProcessingThread::ProcessingThread(SharedImageBuffer *sharedImageBuffer, int dev
 
     featurePath = QDir::currentPath() + "/feature/";
     FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->LoadFeatures(featurePath.toStdString().c_str(), 0);
+    FaceEngineBuilder::getEngine(FaceEngineBuilder::ENGINE_NEURO)->prepare();
 }
 ProcessingThread::~ProcessingThread()
 {

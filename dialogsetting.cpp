@@ -43,6 +43,7 @@ DialogSetting::DialogSetting(QWidget *parent) :
     ui->sp_quality->setValue(preHandler->getQualityThreshold());
     ui->cb_liveness_check->setChecked(preHandler->getUseLivenessCheck());
     ui->sp_liveness_threshold->setValue(preHandler->getLivenessThreshold());
+    ui->sp_liveness_blink->setValue(preHandler->getLivenessBlinkTimeout());
 
     switch (preHandler->getLivenessMode()) {
     case nlmNone:
@@ -145,6 +146,10 @@ void DialogSetting::on_btnSave_clicked()
     PreferenceHandler::getInstance()->setUseLivenessCheck(useLivenessCheck);
     int livenessThreshold = ui->sp_liveness_threshold->value();
     PreferenceHandler::getInstance()->setLivenessThreshold(livenessThreshold);
+
+    int livenessBlink = ui->sp_liveness_blink->value();
+    PreferenceHandler::getInstance()->setLivenessBlinkTimeout(livenessBlink);
+
     int livenessModeIndex = ui->cbox_liveness_mode->currentIndex();
     switch (livenessModeIndex) {
     case 0:

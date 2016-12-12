@@ -24,7 +24,7 @@ public:
     cv::Rect faceDetect(cv::Mat& frame);
     bool LoadFeatures(const char* lpPath, int iAlg);
     //bool saveImage(cv::Mat& frame, QString userName);
-
+    bool prepare();
     bool close();
 
     bool checkLicense();
@@ -35,6 +35,9 @@ private:
     const NChar * components = {N_T("Biometrics.FaceExtraction")};
     const NChar * additionalComponents1 = N_T("Biometrics.FaceSegmentsDetection");
     const NChar * additionalComponents2 = N_T("Biometrics.FaceMatching");
+
+    // face
+    HNBiometricClient hBiometricClientForFace = NULL;
 
     // face matching
 

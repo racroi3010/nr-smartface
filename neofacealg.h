@@ -79,7 +79,7 @@ public:
     Rect faceDetect(cv::Mat& frame);
     bool LoadFeatures(const char* lpPath, int iAlg);
     //bool saveImage(cv::Mat& frame, QString userName);
-
+    bool prepare();
 
     bool close();
 

@@ -1,6 +1,10 @@
 #include "neuroalg.h"
 
 NeuroAlg::NeuroAlg(){
+    NResult result = NBiometricClientCreate(&hBiometricClientForFace);
+    if(NFailed(result)){
+        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+    }
 
 }
 
@@ -217,17 +221,17 @@ cv::Rect NeuroAlg::faceDetect(cv::Mat& frame){
         goto FINALLY;
     }
 
-    // create biometric client
+//    // create biometric client
 
-    result = NBiometricClientCreate(&hBiometricClient);
-    if(NFailed(result)){
-        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        goto FINALLY;
-    }
+//    result = NBiometricClientCreate(&hBiometricClient);
+//    if(NFailed(result)){
+//        PrintErrorMsg(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+//        goto FINALLY;
+//    }
 
     // create the template
 
-    result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricStatus);
+    result = NBiometricEngineCreateTemplate(hBiometricClientForFace, hSubject, &biometricStatus);
     if (NFailed(result))
     {
         PrintErrorMsg(N_T("NBiometricEngineCreateTemplate() failed (result = %d)!"), result);
@@ -412,7 +416,10 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 
     if(biometricStatusForId == nbsOk){
         NInt matchingThreshold = PreferenceHandler::getInstance()->getMatching();
-        NBool parameter = NTrue;
+        NBoolean parameter = PreferenceHandler::getInstance()->getMmatchingDetail();
+        NInt32 maxResultCount = PreferenceHandler::getInstance()->getMatchMaxResult();
+        NBoolean firstResultOnly = PreferenceHandler::getInstance()->getMatchFirstResult();
+
         // set matching threshold
         result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.Threshold"), N_TYPE_OF(NInt32), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, NTrue);
         if (NFailed(result))
@@ -424,6 +431,24 @@ bool NeuroAlg::LoadFeatures(const char* lpPath, int iAlg){
 
         // set matching speed
         result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            rs = false;
+            goto FINALLY;
+        }
+
+        // set matching max result count
+        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NInt32), naNone, &maxResultCount, sizeof(maxResultCount), 1, NTrue);
+        if (NFailed(result))
+        {
+            PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
+            rs = false;
+            goto FINALLY;
+        }
+
+        // set matching first result only
+        result = NObjectSetPropertyP(hBiometricClientForId, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &firstResultOnly, sizeof(firstResultOnly), 1, NTrue);
         if (NFailed(result))
         {
             PrintErrorMsg(N_T("NBiometricTaskGetStatus() failed (result = %d)!"), result);
@@ -811,37 +836,37 @@ NResult NeuroAlg::createTemplate(cv::Mat frame, HNBuffer *hBuffer){
         goto FINALLY;
     }
 
-    // create biometric client
+//    // create biometric client
 
-    result = NBiometricClientCreate(&hBiometricClient);
-    if(NFailed(result)){
-        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
-        goto FINALLY;
-    }
+//    result = NBiometricClientCreate(&hBiometricClient);
+//    if(NFailed(result)){
+//        result = PrintErrorMsgWithLastError(N_T("NBiometricClientCreate() failed (result = %d)!"), result);
+//        goto FINALLY;
+//    }
 
 
 
-   // set template size to large
+//   // set template size to large
 
-    result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, NTrue);
-    if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
-        goto FINALLY;
-    }
+//    result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, NTrue);
+//    if (NFailed(result)) {
+//        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+//        goto FINALLY;
+//    }
 
-    if (hasEx) {
-        // set detect all facial features
-        result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.DetectAllFeaturePoints"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
-        if(NFailed(result)){
-            result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
-            goto FINALLY;
-        }
-    }
+//    if (hasEx) {
+//        // set detect all facial features
+//        result = NObjectSetPropertyP(hBiometricClient, N_T("Faces.DetectAllFeaturePoints"), N_TYPE_OF(NBoolean), naNone, &parameter, sizeof(parameter), 1, NTrue);
+//        if(NFailed(result)){
+//            result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+//            goto FINALLY;
+//        }
+//    }
 
     // create template
 
 
-    result = NBiometricEngineCreateTemplate(hBiometricClient, hSubject, &biometricsStatus);
+    result = NBiometricEngineCreateTemplate(hBiometricClientForFace, hSubject, &biometricsStatus);
     if(NFailed(result)){
         result = PrintErrorMsgWithLastError(N_T("NBiometricEngineCreateTemplate() failed (result = %d)!"), result);
         goto FINALLY;
@@ -885,4 +910,132 @@ FINALLY:
     }
 
     return result;
+}
+bool NeuroAlg::prepare(){
+
+    // client
+    NInt32 minInterOcular = PreferenceHandler::getInstance()->getEyeDistance(); //Faces.MinimalInterOcularDistance
+    NUInt8 confThreshold = PreferenceHandler::getInstance()->getConfident(); // Faces.ConfidenceThreshold
+    NSingle maxRoll = PreferenceHandler::getInstance()->getMaxRoll(); // Faces.MaximalRoll
+    NSingle maxYaw = PreferenceHandler::getInstance()->getMaxYaw(); // Faces.MaximalYaw
+
+    NUInt8 qualityThreshold = PreferenceHandler::getInstance()->getQualityThreshold(); // Faces.QualityThreshold
+
+    NBoolean useLivenessCheck = PreferenceHandler::getInstance()->getUseLivenessCheck(); // Faces.UseLivenessCheck
+    NUInt8 livenessThresHold = PreferenceHandler::getInstance()->getLivenessThreshold(); // Faces.LivenessThreshold
+    NUInt livenessBlinkTimeOut = PreferenceHandler::getInstance()->getLivenessBlinkTimeout(); //Faces.LivenessBlinkTimeout
+
+    NLivenessMode livenessMode = PreferenceHandler::getInstance()->getLivenessMode(); // Faces.LivenessMode
+    NMatchingSpeed matchSpeed = PreferenceHandler::getInstance()->getMatchSpeed(); // Faces.MatchingSpeed
+
+    NUInt32 tokenImageWidth = PreferenceHandler::getInstance()->getTokenImageWidth(); //Faces.TokenImageWidth
+    NUInt8 tokenQualityThreshold = PreferenceHandler::getInstance()->getTokenQualityThreshold(); // Faces.TokenQualityThreshold
+    NUInt8 sharpnessThreshold = PreferenceHandler::getInstance()->getSharpnessThreshold(); // Faces.SharpnessThreshold
+
+    NUInt8 bgUniformityThreshold = PreferenceHandler::getInstance()->getBgUniformThreshold(); // Faces.BackgroundUniformityThreshold
+
+    NUInt8 grayDensityThreshold = PreferenceHandler::getInstance()->getGrayDensityThreshold(); // Faces.GrayscaleDensityThreshold
+
+    NTemplateSize templateSize = (NTemplateSize)PreferenceHandler::getInstance()->getMatching();
+    NBoolean detectAllFeature = PreferenceHandler::getInstance()->getDetectAllFeature(); //  Faces.DetectAllFeaturePoint
+
+    NBool hasEx = NFalse;
+    // create biometric client
+
+
+
+    NResult result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.MinimalInterOcularDistance"), N_TYPE_OF(NInt32), naNone, &minInterOcular, sizeof(minInterOcular), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.ConfidenceThreshold"), N_TYPE_OF(NUInt8), naNone, &confThreshold, sizeof(confThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.MaximalRoll"), N_TYPE_OF(NSingle), naNone, &maxRoll, sizeof(maxRoll), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.MaximalYaw"), N_TYPE_OF(NSingle), naNone, &maxYaw, sizeof(maxYaw), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.QualityThreshold"), N_TYPE_OF(NUInt8), naNone, &qualityThreshold, sizeof(qualityThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.UseLivenessCheck"), N_TYPE_OF(NBoolean), naNone, &useLivenessCheck, sizeof(useLivenessCheck), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.LivenessThreshold"), N_TYPE_OF(NUInt8), naNone, &livenessThresHold, sizeof(livenessThresHold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.LivenessBlinkTimeout"), N_TYPE_OF(NUInt32), naNone, &livenessBlinkTimeOut, sizeof(livenessBlinkTimeOut), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.LivenessMode"), N_TYPE_OF(NLivenessMode), naNone, &livenessMode, sizeof(livenessMode), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.MatchingSpeed"), N_TYPE_OF(NMatchingSpeed), naNone, &matchSpeed, sizeof(matchSpeed), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.TokenImageWidth"), N_TYPE_OF(NUInt32), naNone, &tokenImageWidth, sizeof(tokenImageWidth), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.TokenQualityThreshold"), N_TYPE_OF(NUInt8), naNone, &tokenQualityThreshold, sizeof(tokenQualityThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.SharpnessThreshold"), N_TYPE_OF(NUInt8), naNone, &sharpnessThreshold, sizeof(sharpnessThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.BackgroundUniformityThreshold"), N_TYPE_OF(NUInt8), naNone, &bgUniformityThreshold, sizeof(bgUniformityThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.GrayscaleDensityThreshold"), N_TYPE_OF(NUInt8), naNone, &grayDensityThreshold, sizeof(grayDensityThreshold), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, NTrue);
+    if (NFailed(result)) {
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    result = NLicenseIsComponentActivated(additionalComponents1, &hasEx);
+    if(NFailed(result)){
+        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+    }
+
+    if(hasEx){
+        result = NObjectSetPropertyP(hBiometricClientForFace, N_T("Faces.DetectAllFeaturePoints"), N_TYPE_OF(NBoolean), naNone, &detectAllFeature, sizeof(detectAllFeature), 1, NTrue);
+        if (NFailed(result)) {
+            result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        }
+    }
+
+     return true;
+
 }
