@@ -1540,8 +1540,9 @@ bool NeoFaceAlg::close()
     return true;
 }
 EngineParams NeoFaceAlg::getEngineParams(){
-
+    EngineParams params;
+    return params;
 }
 bool NeoFaceAlg::prepare(){
-
+    return false;
 }

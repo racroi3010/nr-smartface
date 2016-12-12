@@ -572,119 +572,119 @@ EngineParams NeuroAlg::getEngineParams(){
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.MinimalInterOcularDistance"), N_TYPE_OF(NInt32), naNone, &minInterOcular, sizeof(minInterOcular), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMinInterOcular(minInterOcular);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.ConfidenceThreshold"), N_TYPE_OF(NUInt8), naNone, &threshold, sizeof(threshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setConfThreshold(threshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.MaximalRoll"), N_TYPE_OF(NSingle), naNone, &maxRoll, sizeof(maxRoll), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMaxRoll(maxRoll);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.MaximalYaw"), N_TYPE_OF(NSingle), naNone, &maxYaw, sizeof(maxYaw), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMaxYaw(maxYaw);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.QualityThreshold"), N_TYPE_OF(NUInt8), naNone, &qualityThreshold, sizeof(qualityThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setQualityThreshold(qualityThreshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.UseLivenessCheck"), N_TYPE_OF(NBoolean), naNone, &useLivenessCheck, sizeof(useLivenessCheck), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setUseLivenessCheck(useLivenessCheck);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.LivenessThreshold"), N_TYPE_OF(NUInt8), naNone, &livenessThresHold, sizeof(livenessThresHold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setLivenessThresHold(livenessThresHold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.LivenessBlinkTimeout"), N_TYPE_OF(NUInt32), naNone, &livenessBlinkTimeOut, sizeof(livenessBlinkTimeOut), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setLivenessBlinkTimeOut(livenessBlinkTimeOut);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.LivenessMode"), N_TYPE_OF(NLivenessMode), naNone, &livenessMode, sizeof(livenessMode), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setLivenessMode(livenessMode);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.MatchingSpeed"), N_TYPE_OF(NMatchingSpeed), naNone, &matchSpeed, sizeof(matchSpeed), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMatchSpeed(matchSpeed);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.TokenImageWidth"), N_TYPE_OF(NUInt32), naNone, &tokenImageWidth, sizeof(tokenImageWidth), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setTokenImageWidth(tokenImageWidth);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.TokenQualityThreshold"), N_TYPE_OF(NUInt8), naNone, &tokenQualityThreshold, sizeof(tokenQualityThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setTokenQualityThreshold(tokenQualityThreshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.SharpnessThreshold"), N_TYPE_OF(NUInt8), naNone, &sharpnessThreshold, sizeof(sharpnessThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setSharpnessThreshold(sharpnessThreshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.BackgroundUniformityThreshold"), N_TYPE_OF(NUInt8), naNone, &bgUniformityThreshold, sizeof(bgUniformityThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setBgUniformityThreshold(bgUniformityThreshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.GrayscaleDensityThreshold"), N_TYPE_OF(NUInt8), naNone, &grayDensityThreshold, sizeof(grayDensityThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setGrayDensityThreshold(grayDensityThreshold);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.TemplateSize"), N_TYPE_OF(NTemplateSize), naNone, &templateSize, sizeof(templateSize), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setTemplateSize(templateSize);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Faces.DetectAllFeaturePoints"), N_TYPE_OF(NBoolean), naNone, &detectAllFeature, sizeof(detectAllFeature), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setDetectAllFeature(detectAllFeature);
     }
@@ -692,28 +692,28 @@ EngineParams NeuroAlg::getEngineParams(){
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.WithDetails"), N_TYPE_OF(NBoolean), naNone, &matchingWithDetail, sizeof(matchingWithDetail), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMatchingWithDetail(matchingWithDetail);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.MaximalResultCount"), N_TYPE_OF(NInt32), naNone, &matchingMaxResult, sizeof(matchingMaxResult), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMatchingMaxResult(matchingMaxResult);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.FirstResultOnly"), N_TYPE_OF(NBoolean), naNone, &matchingFirstResult, sizeof(matchingFirstResult), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMatchingFirstResult(matchingFirstResult);
     }
 
     result = NObjectGetPropertyP(hBiometricClient, N_T("Matching.Threshold"), N_TYPE_OF(NBoolean), naNone, &matchingThreshold, sizeof(matchingThreshold), 1, &hasValue);
     if (NFailed(result)) {
-        result = PrintErrorMsgWithLastError(N_T("NObjectSetPropertyP() failed (result = %d)!"), result);
+        result = PrintErrorMsgWithLastError(N_T("NObjectGetPropertyP() failed (result = %d)!"), result);
     } else if(hasValue){
         params.setMatchingThreshold(matchingThreshold);
     }
