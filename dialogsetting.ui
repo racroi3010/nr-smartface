@@ -79,7 +79,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-198</y>
+      <y>0</y>
       <width>300</width>
       <height>600</height>
      </rect>
@@ -95,11 +95,11 @@
       <rect>
        <x>0</x>
        <y>-3</y>
-       <width>191</width>
+       <width>249</width>
        <height>601</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="3,1">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="3,1" columnminimumwidth="100,100">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
@@ -344,7 +344,11 @@
       <item row="5" column="0">
        <widget class="QLabel" name="label_14">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Liveness Check&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Liveness
+Check&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
